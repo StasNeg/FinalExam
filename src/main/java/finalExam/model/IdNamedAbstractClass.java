@@ -5,8 +5,7 @@ public abstract class IdNamedAbstractClass {
     protected Integer id;
     protected String name;
 
-    public IdNamedAbstractClass() {
-    }
+    public IdNamedAbstractClass() {}
 
     public IdNamedAbstractClass(String name) {
         this.name = name;
@@ -18,7 +17,6 @@ public abstract class IdNamedAbstractClass {
     }
 
     public String getName() {
-
         return name;
     }
 
@@ -33,5 +31,9 @@ public abstract class IdNamedAbstractClass {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public boolean isNew() {
+        return id.equals(null);
     }
 }
