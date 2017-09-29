@@ -4,27 +4,38 @@ package finalExam.model.restaurant;
 import finalExam.model.IdNamedAbstractClass;
 import finalExam.model.meal.Meal;
 
-import java.time.LocalDateTime;
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
-
+@SuppressWarnings("JpaModelReferenceInspection")
+@Entity
+@Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = {"date","name"}, name = "" +
+        "restaurants_unique_date_name_idx")})
 public class Restaurant extends IdNamedAbstractClass {
-    private List<Meal> dinner;
-    private LocalDateTime orderDate;
 
-    public Restaurant(List<Meal> dinner, LocalDateTime orderDate) {
-        this.dinner = dinner;
-        this.orderDate = orderDate;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurants")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Meal> meals;
+
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
+
+    public Restaurant(List<Meal> meals, LocalDate date) {
+        this.meals = meals;
+        this.date = date;
     }
 
-    public Restaurant(Integer id, String name, List<Meal> dinner, LocalDateTime orderDate) {
+    public Restaurant(Integer id, String name, List<Meal> meals, LocalDate date) {
         super(id, name);
-        this.dinner = dinner;
-        this.orderDate = orderDate;
+        this.meals = meals;
+        this.date = date;
     }
 
-    public Restaurant(String name, List<Meal> dinner, LocalDateTime orderDate) {
+    public Restaurant(String name, List<Meal> meals, LocalDate date) {
         super(name);
-        this.dinner = dinner;
-        this.orderDate = orderDate;
+        this.meals = meals;
+        this.date = date;
+    }
+
+    public Restaurant() {
     }
 }

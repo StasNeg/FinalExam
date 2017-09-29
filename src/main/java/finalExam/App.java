@@ -1,22 +1,18 @@
 package finalExam;
 
-import finalExam.model.meal.Meal;
-import finalExam.repository.Meal.InMemoryMealRepository;
-import finalExam.repository.MealRepository;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.List;
+import java.util.Arrays;
+
 
 
 public class App 
 {
-    public static void main( String[] args )
-    {
-        MealRepository repository = new InMemoryMealRepository();
+    public static void main( String[] args ) {
 
-        Meal mealNew = new Meal("New", 48);
-        List<Meal> meals = repository.getAll();
-        System.out.println(meals);
-        System.out.println(repository.get(meals.get(0).getId()));
-
+        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml")) {
+            System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
+        }
     }
 }

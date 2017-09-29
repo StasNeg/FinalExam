@@ -1,14 +1,14 @@
 package finalExam.repository;
-import finalExam.model.users.Person;
+import finalExam.model.users.User;
 
 import java.util.List;
 
 public interface PersonRepository {
-    List<Person> getAll();
+    List<User> getAll();
 
-    Person get(Integer id);
+    User get(Integer id);
 
     boolean delete(Integer id);
 
-    Person save(Person person);
+    User save(User user);
 }
