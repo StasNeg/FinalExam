@@ -29,8 +29,7 @@ CREATE TABLE user_roles
 CREATE TABLE restaurants (
   id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
   date TIMESTAMP NOT NULL,
-  name      TEXT      NOT NULL,
-  price     INT       NOT NULL
+  name      TEXT      NOT NULL
 );
 CREATE UNIQUE INDEX restaurants_unique_name__date_idx ON restaurants(date, name);
 
@@ -41,3 +40,5 @@ CREATE TABLE meals (
   price          INT     NOT NULL,
   FOREIGN KEY (restaurants_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
+CREATE UNIQUE INDEX meals_unique_name_restaurantID_price_idx ON meals(name,restaurants_id, price);
+CREATE INDEX meals_restaurantID_idx ON meals(restaurants_id);

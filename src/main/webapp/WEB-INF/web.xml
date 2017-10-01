@@ -8,10 +8,10 @@
     <servlet>
         <servlet-name>finalTopJava</servlet-name>
         <servlet-class>finalExam.controller.MainController</servlet-class>
-        <load-on-startup>0</load-on-startup>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>finalTopJava</servlet-name>
-        <url-pattern>/users</url-pattern>
+        <url-pattern>/main</url-pattern>
     </servlet-mapping>
 </web-app>

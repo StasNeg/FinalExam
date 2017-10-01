@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface RestaurantRepository {
 
-    List<Restaurant> getAll(Integer userId);
+    List<Restaurant> getAll();
 
-    Restaurant get(Integer id, Integer userId);
+    Restaurant get(Integer id);
 
-    boolean delete(Integer id, Integer userId);
+    void delete(Integer id);
 
-    Restaurant save(Restaurant restaurant, Integer userId);
+    Restaurant save(Restaurant restaurant);
 }

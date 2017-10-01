@@ -3,12 +3,14 @@ import finalExam.model.users.User;
 
 import java.util.List;
 
-public interface PersonRepository {
+public interface UserRepository {
     List<User> getAll();
 
     User get(Integer id);
 
-    boolean delete(Integer id);
+    void delete(Integer id);
 
     User save(User user);
+
+    User getByEmail(String email);
 }

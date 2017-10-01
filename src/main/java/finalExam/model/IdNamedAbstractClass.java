@@ -51,6 +51,24 @@ public abstract class IdNamedAbstractClass {
     }
 
     public boolean isNew() {
-        return id.equals(null);
+        return id==null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof IdNamedAbstractClass)) return false;
+
+        IdNamedAbstractClass that = (IdNamedAbstractClass) o;
+
+        if (!id.equals(that.id)) return false;
+        return name.equals(that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        return result;
     }
 }
