@@ -36,9 +36,9 @@ public class JPAMealRepositoryImpl implements MealRepository {
     @Override
     public Meal get(Integer id, Integer restaurantId) {
         Meal meal = em.find(Meal.class, id);
-        if(meal == null || meal.getRestaurant().getId() != restaurantId)
-            throw new NotFoundException("Meal with id " + id + "and with restaurant Id"
-                    + restaurantId + "is not available");
+        if(meal == null || !meal.getRestaurant().getId().equals(restaurantId))
+            throw new NotFoundException("Meal with id " + id + " and with restaurant Id "
+                    + restaurantId + " is not available");
         return meal;
     }
 
@@ -48,15 +48,15 @@ public class JPAMealRepositoryImpl implements MealRepository {
         if (em.createNamedQuery(Meal.DELETE)
                 .setParameter("id", id)
                 .setParameter("restaurantId", restaurantId)
-                .executeUpdate() == 0) throw new NotFoundException("Meal with id " + id + "and with restaurant Id"
-                + restaurantId + "is not available");
+                .executeUpdate() == 0) throw new NotFoundException("Meal with id " + id + " and with restaurant Id "
+                + restaurantId + " is not available ");
     }
 
     @Override
     @Transactional
     public Meal save(Meal meal, Integer restaurantId) {
         if (!meal.isNew() && get(meal.getId(), restaurantId) == null) {
-            throw new NotFoundException("Can't create/update" + meal + "for restaurant id " + restaurantId);
+            throw new NotFoundException("Can't create/update " + meal + " for restaurant id " + restaurantId);
         }
         meal.setRestaurant(em.getReference(Restaurant.class, restaurantId));
         if (meal.isNew()) {

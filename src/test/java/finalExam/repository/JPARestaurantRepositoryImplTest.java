@@ -1,7 +1,6 @@
 package finalExam.repository;
 
 import finalExam.matcher.BeanMatcher;
-import finalExam.model.meal.Meal;
 import finalExam.model.restaurant.Restaurant;
 import finalExam.util.exception.NotFoundException;
 import org.junit.Test;
@@ -14,12 +13,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
+
 
 
 import java.util.*;
 
-import static finalExam.testData.RestaurantTestData.*;
+import static finalExam.testData.RestaurantMealTestData.*;
 import static java.time.LocalDate.of;
 
 
@@ -47,8 +46,7 @@ public class JPARestaurantRepositoryImplTest {
     @Test
     @Rollback(false)
     public void testSave() throws Exception {
-        Restaurant newRestaurant = new Restaurant(null, "New", of(2015, 06, 01));
-//                Arrays.asList(new Meal("111", 45)));
+        Restaurant newRestaurant = new Restaurant(null, "New", "NEW ADDRESS", of(2015, 06, 01));
         Restaurant created = repository.save(newRestaurant);
         newRestaurant.setId(created.getId());
         System.out.println(repository.getAll());
@@ -63,7 +61,7 @@ public class JPARestaurantRepositoryImplTest {
 
     @Test(expected = DataAccessException.class)
     public void testDuplicateMailSave() throws Exception {
-        repository.save(new Restaurant(null, "Континенталь", of(2015, 05, 30)));
+        repository.save(new Restaurant(null, "Астория", "Первого восстания 78", of(2015, 05, 30)));
     }
 
     @Test
@@ -99,7 +97,6 @@ public class JPARestaurantRepositoryImplTest {
 
     @Test
     public void testGetAlLWithMeals() throws Exception {
-
         List<Restaurant> restaurants = repository.getByNameWithMeals(FIRST_RESTAURANT.getName());
         System.out.println(restaurants);
         restaurants = repository.getByNameBetweenDates(SECOND_RESTAURANT.getName(), of(2015, 01, 01), of(2015, 12, 30));
@@ -107,6 +104,4 @@ public class JPARestaurantRepositoryImplTest {
         restaurants = repository.getBetweenDates(of(2015, 01, 01), of(2015, 12, 30));
         System.out.println(restaurants);
     }
-
-
 }

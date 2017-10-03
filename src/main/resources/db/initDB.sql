@@ -27,11 +27,13 @@ CREATE TABLE user_roles
 );
 
 CREATE TABLE restaurants (
-  id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  date TIMESTAMP NOT NULL,
-  name      TEXT      NOT NULL
+  id      INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+  date    TIMESTAMP NOT NULL,
+  name    TEXT      NOT NULL,
+  address TEXT      NOT NULL
 );
-CREATE UNIQUE INDEX restaurants_unique_name__date_idx ON restaurants(date, name);
+CREATE UNIQUE INDEX restaurants_unique_address__date_idx
+  ON restaurants (date, address);
 
 CREATE TABLE meals (
   id             INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),

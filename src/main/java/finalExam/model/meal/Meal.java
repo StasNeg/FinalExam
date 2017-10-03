@@ -31,7 +31,7 @@ public class Meal extends IdNamedAbstractClass {
     @CollectionTable(name = "restaurants")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurants_id")
-//    @NotNull
+    @NotNull
     private Restaurant restaurant;
 
     public Meal() {

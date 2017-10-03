@@ -51,7 +51,7 @@ public class JPARestaurantRepositoryImpl implements RestaurantRepository {
 
     @Override
     public List<Restaurant> getByNameWithMeals(String name) {
-        return em.createNamedQuery(Restaurant.ALL_BY_NAME, Restaurant.class)
+        return em.createNamedQuery(Restaurant.ALL_BY_ADDRESS, Restaurant.class)
                 .setParameter(1,name)
                 .getResultList();
     }
@@ -59,7 +59,7 @@ public class JPARestaurantRepositoryImpl implements RestaurantRepository {
 
     @Override
     public List<Restaurant> getByNameBetweenDates(String name, LocalDate startDate, LocalDate endDate) {
-        return em.createNamedQuery(Restaurant.GET_BY_NAME_BETWEEN_DATES, Restaurant.class)
+        return em.createNamedQuery(Restaurant.GET_BY_ADDRESS_BETWEEN_DATES, Restaurant.class)
                 .setParameter(1,name)
                 .setParameter(2, startDate)
                 .setParameter(3, endDate).getResultList();

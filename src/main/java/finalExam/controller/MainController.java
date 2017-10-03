@@ -26,8 +26,6 @@ public class MainController  extends HttpServlet {
         super.init(config);
         springContext = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml");
         RestaurantRepository repository = springContext.getBean(RestaurantRepository.class);
-        repository.save(new Restaurant(null,"New1", LocalDate.now()));
-        repository.save(new Restaurant(null,"New2", LocalDate.now()));
     }
 
     @Override

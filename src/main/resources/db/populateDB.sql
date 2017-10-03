@@ -14,10 +14,10 @@ INSERT INTO user_roles (role, user_id) VALUES
   ('ROLE_ADMIN', 100001),
   ('ROLE_USER', 100001);
 
-INSERT INTO restaurants (date, name) VALUES
-  ('2015-05-30', 'Континенталь'),
-  ('2015-05-30', 'Астория'),
-  ('2015-05-31', 'Астория');
+INSERT INTO restaurants (date, name, address) VALUES
+  ('2015-05-30', 'Континенталь', 'Декабристов 14' ),
+  ('2015-05-30', 'Астория', 'Первого восстания 78'),
+  ('2015-05-31', 'Астория', 'Первого восстания 78');
 
 
 INSERT INTO meals (name, price, restaurants_id) VALUES
