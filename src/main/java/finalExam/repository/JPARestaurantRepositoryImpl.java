@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -46,5 +47,28 @@ public class JPARestaurantRepositoryImpl implements RestaurantRepository {
         } else {
             return em.merge(restaurant);
         }
+    }
+
+    @Override
+    public List<Restaurant> getByNameWithMeals(String name) {
+        return em.createNamedQuery(Restaurant.ALL_BY_NAME, Restaurant.class)
+                .setParameter(1,name)
+                .getResultList();
+    }
+
+
+    @Override
+    public List<Restaurant> getByNameBetweenDates(String name, LocalDate startDate, LocalDate endDate) {
+        return em.createNamedQuery(Restaurant.GET_BY_NAME_BETWEEN_DATES, Restaurant.class)
+                .setParameter(1,name)
+                .setParameter(2, startDate)
+                .setParameter(3, endDate).getResultList();
+    }
+
+    @Override
+    public List<Restaurant> getBetweenDates(LocalDate startDate, LocalDate endDate) {
+        return em.createNamedQuery(Restaurant.GET_BETWEEN_DATES, Restaurant.class)
+                .setParameter(1, startDate)
+                .setParameter(2, endDate).getResultList();
     }
 }

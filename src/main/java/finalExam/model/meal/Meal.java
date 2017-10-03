@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 
 @NamedQueries({
         @NamedQuery(name = Meal.ALL, query = "SELECT m FROM Meal m WHERE m.restaurant.id=:restaurantId "),
@@ -30,7 +31,7 @@ public class Meal extends IdNamedAbstractClass {
     @CollectionTable(name = "restaurants")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurants_id")
-    @NotNull
+//    @NotNull
     private Restaurant restaurant;
 
     public Meal() {
@@ -68,7 +69,7 @@ public class Meal extends IdNamedAbstractClass {
                 "id=" + id +
                 ", cost=" + price +
                 ", name='" + name + '\'' +
-                '}';
+                '}'+'\n';
     }
 
     @Override

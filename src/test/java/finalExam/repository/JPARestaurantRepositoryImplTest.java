@@ -1,6 +1,7 @@
 package finalExam.repository;
 
 import finalExam.matcher.BeanMatcher;
+import finalExam.model.meal.Meal;
 import finalExam.model.restaurant.Restaurant;
 import finalExam.util.exception.NotFoundException;
 import org.junit.Test;
@@ -8,15 +9,15 @@ import org.junit.runner.RunWith;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 import static finalExam.testData.RestaurantTestData.*;
 import static java.time.LocalDate.of;
@@ -38,33 +39,37 @@ public class JPARestaurantRepositoryImplTest {
 
     @Autowired
     private RestaurantRepository repository;
+    @Autowired
+    private MealRepository mealRepository;
 
     private BeanMatcher<Restaurant> MATCHER = new BeanMatcher<>();
 
     @Test
+    @Rollback(false)
     public void testSave() throws Exception {
-        Restaurant newRestaurant = new Restaurant(null, "New", of(2015,06,01),  Arrays.asList(MEAL1, MEAL6, MEAL7));
+        Restaurant newRestaurant = new Restaurant(null, "New", of(2015, 06, 01));
+//                Arrays.asList(new Meal("111", 45)));
         Restaurant created = repository.save(newRestaurant);
         newRestaurant.setId(created.getId());
-        MATCHER.assertCollectionEquals(Arrays.asList(FIRST_RESTAURANT,SECOND_RESTAURANT, newRestaurant), repository.getAll());
+        System.out.println(repository.getAll());
+        MATCHER.assertCollectionEquals(Arrays.asList(FIRST_RESTAURANT,SECOND_RESTAURANT,THIRD_RESTAURANT, newRestaurant), repository.getAll());
     }
 
     @Test
     public void getAll() throws Exception {
         Collection<Restaurant> all = repository.getAll();
-        MATCHER.assertCollectionEquals(Arrays.asList(FIRST_RESTAURANT , SECOND_RESTAURANT), all);
+        MATCHER.assertCollectionEquals(Arrays.asList(FIRST_RESTAURANT , SECOND_RESTAURANT,THIRD_RESTAURANT), all);
     }
 
     @Test(expected = DataAccessException.class)
     public void testDuplicateMailSave() throws Exception {
-        repository.save(new Restaurant(null, "Континенталь", of(2015,05,30),
-                Arrays.asList(MEAL1, MEAL2, MEAL3)));
+        repository.save(new Restaurant(null, "Континенталь", of(2015, 05, 30)));
     }
 
     @Test
     public void testDelete() throws Exception {
         repository.delete(SECOND_RESTAURANT_ID);
-        MATCHER.assertCollectionEquals(Collections.singletonList(FIRST_RESTAURANT), repository.getAll());
+        MATCHER.assertCollectionEquals(Arrays.asList(FIRST_RESTAURANT , THIRD_RESTAURANT), repository.getAll());
     }
 
     @Test(expected = NotFoundException.class)
@@ -83,7 +88,7 @@ public class JPARestaurantRepositoryImplTest {
         repository.get(1);
     }
 
-
+    @Rollback(false)
     @Test
     public void testUpdate() throws Exception {
         Restaurant updated = repository.get(FIRST_RESTAURANT_ID);
@@ -91,4 +96,17 @@ public class JPARestaurantRepositoryImplTest {
         repository.save(updated);
         MATCHER.assertEquals(updated, repository.get(FIRST_RESTAURANT_ID));
     }
+
+    @Test
+    public void testGetAlLWithMeals() throws Exception {
+
+        List<Restaurant> restaurants = repository.getByNameWithMeals(FIRST_RESTAURANT.getName());
+        System.out.println(restaurants);
+        restaurants = repository.getByNameBetweenDates(SECOND_RESTAURANT.getName(), of(2015, 01, 01), of(2015, 12, 30));
+        System.out.println(restaurants);
+        restaurants = repository.getBetweenDates(of(2015, 01, 01), of(2015, 12, 30));
+        System.out.println(restaurants);
+    }
+
+
 }

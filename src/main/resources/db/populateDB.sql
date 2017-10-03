@@ -16,7 +16,8 @@ INSERT INTO user_roles (role, user_id) VALUES
 
 INSERT INTO restaurants (date, name) VALUES
   ('2015-05-30', 'Континенталь'),
-  ('2015-05-30', 'Астория');
+  ('2015-05-30', 'Астория'),
+  ('2015-05-31', 'Астория');
 
 
 INSERT INTO meals (name, price, restaurants_id) VALUES
@@ -26,5 +27,8 @@ INSERT INTO meals (name, price, restaurants_id) VALUES
   ('Жаркое', 78, 100003),
   ('Сок', 33, 100003),
   ('Суп Харчо', 62, 100003),
-  ('Пельмени', 62, 100003);
+  ('Пельмени', 62, 100003),
+  ('Сок', 33, 100004),
+  ('Суп Харчо', 62, 100004),
+  ('Пельмени', 62, 100004);
 
