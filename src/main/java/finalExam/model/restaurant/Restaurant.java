@@ -3,6 +3,7 @@ package finalExam.model.restaurant;
 
 import finalExam.model.IdNamedAbstractClass;
 import finalExam.model.meal.Meal;
+import finalExam.model.votes.Vote;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @NamedQueries({
@@ -45,12 +47,23 @@ public class Restaurant extends IdNamedAbstractClass {
     @Column(name = "address", nullable = false)
     private String address;
 
+    @OneToMany(fetch = FetchType.LAZY,  mappedBy = "restaurant",
+            cascade = {CascadeType.REMOVE}, orphanRemoval = true)
+    private Set<Vote> votes;
+
     public Restaurant(Integer id, String name, String address, LocalDate date, List<Meal> meals) {
         super(id, name);
         this.address = address;
         this.meals = meals;
         this.date = date;
     }
+    public Restaurant(Restaurant restaurant) {
+        super(restaurant.getId(),restaurant.getName());
+        this.address = restaurant.getAddress();
+        this.meals = restaurant.getMeals();
+        this.date = restaurant.getDate();
+    }
+
 
     public Restaurant(String name, String address, LocalDate date, List<Meal> meals) {
         super(name);

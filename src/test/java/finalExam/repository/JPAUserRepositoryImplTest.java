@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import static finalExam.testData.UserTestData.*;
+import static java.time.LocalDate.of;
 
 
 @ContextConfiguration({

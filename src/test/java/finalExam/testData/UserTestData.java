@@ -13,7 +13,7 @@ public class UserTestData {
     public static final Integer ADMIN_ID = START_SEQ + 1;
 
     public static final User USER = new User(USER_ID, "User", "user@yandex.ru", "password", Role.ROLE_USER);
-    public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "password", Role.ROLE_ADMIN, Role.ROLE_USER);
+    public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "password", Role.ROLE_ADMIN);
 
     public static final BeanMatcher<User> MATCHER = new BeanMatcher<>(
             (expected, actual) -> expected == actual ||

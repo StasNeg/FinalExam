@@ -1,13 +1,11 @@
 package finalExam.controller;
 
 
-import finalExam.model.restaurant.Restaurant;
-import finalExam.repository.JPAMealRepositoryImpl;
-import finalExam.repository.MealRepository;
+
 import finalExam.repository.RestaurantRepository;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Controller;
+
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -15,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
+
 
 public class MainController  extends HttpServlet {
 
@@ -36,7 +34,7 @@ public class MainController  extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        req.getRequestDispatcher("/index").forward(req, resp);
+
     }
 
     @Override
