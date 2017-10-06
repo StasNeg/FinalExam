@@ -20,4 +20,6 @@ public interface RestaurantRepository {
     List<Restaurant> getByNameBetweenDates(String name, LocalDate startDate, LocalDate endDate);
 
     List<Restaurant> getBetweenDates(LocalDate startDate, LocalDate endDate);
+
+    void evictCache();
 }

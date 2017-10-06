@@ -10,9 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-/**
- * Created by Stanislav on 29.09.2017.
- */
 
 @Repository
 @Transactional(readOnly = true)

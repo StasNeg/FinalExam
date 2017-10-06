@@ -2,6 +2,8 @@ package finalExam.repository;
 
 import finalExam.model.restaurant.Restaurant;
 import finalExam.util.exception.NotFoundException;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,7 @@ public class JPARestaurantRepositoryImpl implements RestaurantRepository {
     @PersistenceContext
     private EntityManager em;
 
+    @Cacheable("restaurants")
     @Override
     public List<Restaurant> getAll() {
         return em.createNamedQuery(Restaurant.ALL, Restaurant.class).getResultList();
@@ -29,6 +32,7 @@ public class JPARestaurantRepositoryImpl implements RestaurantRepository {
         return getRestaunat;
     }
 
+    @CacheEvict(value = "restaurants", allEntries = true)
     @Transactional
     @Override
     public void delete(Integer id) {
@@ -38,6 +42,7 @@ public class JPARestaurantRepositoryImpl implements RestaurantRepository {
 
     }
 
+    @CacheEvict(value = "restaurants", allEntries = true)
     @Transactional
     @Override
     public Restaurant save(Restaurant restaurant) {
@@ -49,6 +54,7 @@ public class JPARestaurantRepositoryImpl implements RestaurantRepository {
         }
     }
 
+    @Cacheable("restaurants")
     @Override
     public List<Restaurant> getByNameWithMeals(String name) {
         return em.createNamedQuery(Restaurant.ALL_BY_ADDRESS, Restaurant.class)
@@ -56,7 +62,7 @@ public class JPARestaurantRepositoryImpl implements RestaurantRepository {
                 .getResultList();
     }
 
-
+    @Cacheable("restaurants")
     @Override
     public List<Restaurant> getByNameBetweenDates(String name, LocalDate startDate, LocalDate endDate) {
         return em.createNamedQuery(Restaurant.GET_BY_ADDRESS_BETWEEN_DATES, Restaurant.class)
@@ -65,10 +71,17 @@ public class JPARestaurantRepositoryImpl implements RestaurantRepository {
                 .setParameter(3, endDate).getResultList();
     }
 
+    @Cacheable("restaurants")
     @Override
     public List<Restaurant> getBetweenDates(LocalDate startDate, LocalDate endDate) {
         return em.createNamedQuery(Restaurant.GET_BETWEEN_DATES, Restaurant.class)
                 .setParameter(1, startDate)
                 .setParameter(2, endDate).getResultList();
+    }
+
+    @CacheEvict(value = "restaurants", allEntries = true)
+    @Override
+    public void evictCache() {
+        // only for evict cache
     }
 }

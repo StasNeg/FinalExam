@@ -1,6 +1,7 @@
 package finalExam.model.meal;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import finalExam.model.IdNamedAbstractClass;
 import finalExam.model.restaurant.Restaurant;
 import org.hibernate.validator.constraints.Range;
@@ -32,6 +33,7 @@ public class Meal extends IdNamedAbstractClass {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurants_id")
     @NotNull
+    @JsonIgnore
     private Restaurant restaurant;
 
     public Meal() {
