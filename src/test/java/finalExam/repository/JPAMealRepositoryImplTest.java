@@ -25,7 +25,7 @@ public class JPAMealRepositoryImplTest {
     @Autowired
     private MealRepository repository;
 
-    private BeanMatcher<Meal> MATCHER = new BeanMatcher<>();
+    private BeanMatcher<Meal> MATCHER = BeanMatcher.of(Meal.class);
 
     @Test(expected = NotFoundException.class)
     public void testDeleteNotFound() throws Exception {
@@ -36,7 +36,7 @@ public class JPAMealRepositoryImplTest {
     public void testSave() throws Exception {
         Meal created = new Meal("New", 72);
         repository.save(created, THIRD_RESTAURANT_ID);
-        MATCHER.assertCollectionEquals(Arrays.asList(MEAL8, MEAL9, MEAL10, created), repository.getAll(THIRD_RESTAURANT_ID));
+        MATCHER.assertListEquals(Arrays.asList(MEAL8, MEAL9, MEAL10, created), repository.getAll(THIRD_RESTAURANT_ID));
     }
 
     @Test
@@ -65,6 +65,6 @@ public class JPAMealRepositoryImplTest {
 
     @Test
     public void testGetAll() throws Exception {
-        MATCHER.assertCollectionEquals(Arrays.asList(MEAL1,MEAL2,MEAL3), repository.getAll(FIRST_RESTAURANT_ID));
+        MATCHER.assertListEquals(Arrays.asList(MEAL1,MEAL2,MEAL3), repository.getAll(FIRST_RESTAURANT_ID));
     }
 }

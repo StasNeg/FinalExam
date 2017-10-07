@@ -1,7 +1,10 @@
 package finalExam.controller.vote;
 
+
+import finalExam.AuthorizedUser;
 import finalExam.model.votes.Vote;
 import finalExam.repository.VoteRepository;
+import finalExam.to.RestaurantWithPriceTotal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
+
+import static finalExam.util.RestaurantUtil.getFromSumTotal;
+import static finalExam.util.UserUtil.fromTo;
 
 
 @RestController
@@ -20,32 +25,22 @@ public class VoteRestController {
     @Autowired
     private VoteRepository repository;
 
-    @GetMapping("/{id}")
-    public Vote get(@PathVariable("id") int id) {
-        return repository.get(id);
+    @PutMapping(consumes = MediaType.ALL_VALUE)
+    public void update(@RequestParam(value = "restaurantId") Integer restaurantId) {
+        repository.save(restaurantId, fromTo(AuthorizedUser.get().getUserTo()));
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") int id) {
-        repository.delete(id);
-    }
 
-    @GetMapping
-    public List<Vote> getAll() {
-        return repository.getAll();
-    }
-
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody Vote vote) {
-        repository.save(vote);
-    }
-
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createWithLocation(@RequestBody Vote vote) {
-        Vote created = repository.save(vote);
+    @PostMapping(consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<Vote> createWithLocation(@RequestParam(value = "restaurantId") Integer restaurantId) {
+        Vote created = repository.save(restaurantId,fromTo(AuthorizedUser.get().getUserTo()));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
+
 }
+
+
+

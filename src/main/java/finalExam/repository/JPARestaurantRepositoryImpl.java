@@ -28,7 +28,7 @@ public class JPARestaurantRepositoryImpl implements RestaurantRepository {
     @Override
     public Restaurant get(Integer id) {
         Restaurant getRestaunat = em.find(Restaurant.class, id);
-        if (getRestaunat == null) throw new NotFoundException("User with id " + id + "is not available");
+        if (getRestaunat == null) throw new NotFoundException("Restaurant with id " + id + " is not available");
         return getRestaunat;
     }
 
@@ -38,7 +38,7 @@ public class JPARestaurantRepositoryImpl implements RestaurantRepository {
     public void delete(Integer id) {
         if (em.createNamedQuery(Restaurant.DELETE)
                 .setParameter("id", id)
-                .executeUpdate() == 0) throw new NotFoundException("User restaurant id" + id + "is not available");
+                .executeUpdate() == 0) throw new NotFoundException("Restaurant id " + id + " is not available");
 
     }
 

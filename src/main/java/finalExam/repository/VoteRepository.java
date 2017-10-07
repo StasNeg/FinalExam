@@ -9,16 +9,16 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface VoteRepository {
-    Vote get(Integer id);
-
-    void delete(Integer id);
-
-    Vote save(Vote vote);
 
     List<Vote> getAll();
+
+    Vote save(Restaurant restaurant, User user);
+
+    Vote save(Integer restaurantId, User user);
 
     List<User> getAllUserByDay(LocalDate date);
 
     List<Restaurant> getAllRestaurantByDay(LocalDate date);
+
 
 }

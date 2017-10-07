@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-/**
- * Created by Stanislav on 05.10.2017.
- */
+
 public class RestaurantUtil {
     public static List<RestaurantWithPriceTotal> getWithSumTotal(List<Restaurant> restaurants) {
         return restaurants.stream().map(x -> {

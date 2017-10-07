@@ -2,6 +2,8 @@ package finalExam.repository;
 
 import finalExam.model.users.User;
 import finalExam.util.exception.NotFoundException;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,7 @@ public class JPAUserRepositoryImpl implements UserRepository {
     private EntityManager em;
 
     @Override
+    @CacheEvict(value = "users", allEntries = true)
     @Transactional
     public User save(User user) {
         if (user.isNew()) {
@@ -31,6 +34,7 @@ public class JPAUserRepositoryImpl implements UserRepository {
         }
     }
 
+    @Cacheable("users")
     @Override
     public User get(Integer id) {
         User getUser = em.find(User.class, id);
@@ -38,6 +42,7 @@ public class JPAUserRepositoryImpl implements UserRepository {
         return getUser;
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     @Override
     @Transactional
     public void delete(Integer id) {
@@ -47,6 +52,7 @@ public class JPAUserRepositoryImpl implements UserRepository {
                 .executeUpdate() == 0) throw new NotFoundException("User with id" + id + "is not available");
     }
 
+    @Cacheable("users")
     @Override
     public User getByEmail(String email) {
         List<User> users = em.createNamedQuery(User.BY_EMAIL, User.class)
@@ -54,10 +60,17 @@ public class JPAUserRepositoryImpl implements UserRepository {
                 .getResultList();
         return DataAccessUtils.singleResult(users);
     }
-
+    @Cacheable("users")
     @Override
     public List<User> getAll() {
         return em.createNamedQuery(User.ALL, User.class).getResultList();
+    }
+
+
+    @CacheEvict(value = "users", allEntries = true)
+    @Override
+    public void evictCache() {
+        // only for evict cache
     }
 
 }

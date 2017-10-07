@@ -3,49 +3,60 @@ package finalExam.model.votes;
 import finalExam.model.IdAbstractClass;
 import finalExam.model.restaurant.Restaurant;
 import finalExam.model.users.User;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @NamedQueries({
-        @NamedQuery(name = Vote.ALL, query = "SELECT v FROM Vote v"),
-        @NamedQuery(name = Vote.DELETE, query = "DELETE FROM Vote v WHERE v.id=:id"),
+        @NamedQuery(name = Vote.ALL, query = "SELECT v FROM Vote v  Left JOIN FETCH v.user LEFT JOIN FETCH v.restaurant"),
+        @NamedQuery(name = Vote.GET_BY_USER_AND_DATE, query = "SELECT v FROM Vote v WHERE v.date=:voteDate AND v.user.id =:userId"),
         @NamedQuery(name = Vote.GET_ALL_USERS_BY_DATE, query = "SELECT new User(v.user) FROM Vote v WHERE v.date=:date"),
         @NamedQuery(name = Vote.GET_ALL_RESTAURANT_BY_DATE, query = "SELECT new Restaurant(v.restaurant) FROM Vote v WHERE v.date=:date")
 })
 
 
 @Entity
-@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"}, name = "votes_unique_user_id_date_idx")})
+@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "user_id"}, name = "votes_unique_restaurantId_userId_idx")})
 public class Vote extends IdAbstractClass {
     public static final String ALL = "Vote.getAll";
-    public static final String DELETE = "Vote.delete";
     public static final String GET_ALL_USERS_BY_DATE = "Vote.getUserByDay";
     public static final String GET_ALL_RESTAURANT_BY_DATE = "Vote.getRestaurantByDay";
+    public static final String GET_BY_USER_AND_DATE = "Vote.getByUserIdAndDate";
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
+    @BatchSize(size = 200)
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @BatchSize(size = 200)
     private User user;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date_vote", nullable = false)
     private LocalDate date;
 
     public Vote() {
     }
 
-    public Vote(Restaurant restaurant, User user, LocalDate date) {
+    public Vote(User user, Restaurant restaurant, LocalDate date) {
         this.restaurant = restaurant;
         this.user = user;
         this.date = date;
     }
 
-    public Vote(Integer id, Restaurant restaurant, User user, LocalDate date) {
+    public Vote(Integer id, User user, Restaurant restaurant, LocalDate date) {
         super(id);
         this.restaurant = restaurant;
         this.user = user;
+        this.date = date;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -63,14 +74,6 @@ public class Vote extends IdAbstractClass {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     @Override
@@ -96,10 +99,10 @@ public class Vote extends IdAbstractClass {
     @Override
     public String toString() {
         return "Vote{" +
-                ", id=" + id +
+                "id=" + id +
                 ", date=" + date +
                 ", user=" + user +
-                "restaurant=" + restaurant +
+                ", restaurant=" + restaurant +
                 '}';
     }
 }

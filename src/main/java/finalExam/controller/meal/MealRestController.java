@@ -24,30 +24,10 @@ public class MealRestController {
         return repository.get(id, restaurantId);
     }
 
-    @DeleteMapping("/admin/{restaurantId}/{id}")
-    public void delete(@PathVariable("id") int id,@PathVariable("restaurantId") int restaurantId) {
-        repository.delete(id, restaurantId);
-    }
-
-
     @GetMapping(value = "/{restaurantId}")
     public List<Meal> getAll(@PathVariable("restaurantId") int restaurantId) {
         List<Meal> meals = repository.getAll(restaurantId);
         return meals;
     }
 
-
-    @PutMapping(value = "/admin/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody Meal meal,@PathVariable("restaurantId") int restaurantId) {
-        repository.save(meal, restaurantId);
-    }
-
-    @PostMapping(value = "/admin/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Meal> createWithLocation(@RequestBody Meal meal, @PathVariable("restaurantId") int restaurantId) {
-        Meal created = repository.save(meal, restaurantId);
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
-                .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(created);
-    }
 }

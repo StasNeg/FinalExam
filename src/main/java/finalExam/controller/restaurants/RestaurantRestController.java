@@ -25,30 +25,9 @@ public class RestaurantRestController {
     public RestaurantWithPriceTotal get(@PathVariable("id") int id) {
         return RestaurantUtil.getWithSumTotal(Arrays.asList(repository.get(id))).get(0);
     }
-
-    @DeleteMapping("/admin/{id}")
-    public void delete(@PathVariable("id") int id) {
-        repository.delete(id);
-    }
-
     @GetMapping
     public List<RestaurantWithPriceTotal> getAll() {
         return RestaurantUtil.getWithSumTotal(repository.getAll());
     }
 
-    @PutMapping(value = "/admin", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody RestaurantWithPriceTotal restaurant) {
-        repository.save(RestaurantUtil.getFromSumTotal(restaurant));
-    }
-
-    @PostMapping(value = "/admin", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RestaurantWithPriceTotal> createWithLocation(@RequestBody RestaurantWithPriceTotal restaurant) {
-        RestaurantWithPriceTotal created = RestaurantUtil
-                .getWithSumTotal(Arrays.asList(repository.save(RestaurantUtil.getFromSumTotal(restaurant))))
-                .get(0);
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
-                .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(created);
-    }
 }

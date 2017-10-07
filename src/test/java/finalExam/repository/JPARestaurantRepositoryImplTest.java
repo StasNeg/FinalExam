@@ -41,7 +41,7 @@ public class JPARestaurantRepositoryImplTest {
     @Autowired
     private MealRepository mealRepository;
 
-    private BeanMatcher<Restaurant> MATCHER = new BeanMatcher<>();
+    private BeanMatcher<Restaurant> MATCHER = BeanMatcher.of(Restaurant.class);
 
     @Test
     @Rollback(false)
@@ -50,13 +50,13 @@ public class JPARestaurantRepositoryImplTest {
         Restaurant created = repository.save(newRestaurant);
         newRestaurant.setId(created.getId());
         System.out.println(repository.getAll());
-        MATCHER.assertCollectionEquals(Arrays.asList(FIRST_RESTAURANT,SECOND_RESTAURANT,THIRD_RESTAURANT, newRestaurant), repository.getAll());
+        MATCHER.assertListEquals(Arrays.asList(FIRST_RESTAURANT,SECOND_RESTAURANT,THIRD_RESTAURANT, newRestaurant), repository.getAll());
     }
 
     @Test
     public void getAll() throws Exception {
-        Collection<Restaurant> all = repository.getAll();
-        MATCHER.assertCollectionEquals(Arrays.asList(FIRST_RESTAURANT , SECOND_RESTAURANT,THIRD_RESTAURANT), all);
+        List<Restaurant> all = repository.getAll();
+        MATCHER.assertListEquals(Arrays.asList(FIRST_RESTAURANT , SECOND_RESTAURANT,THIRD_RESTAURANT), all);
     }
 
     @Test(expected = DataAccessException.class)
@@ -67,7 +67,7 @@ public class JPARestaurantRepositoryImplTest {
     @Test
     public void testDelete() throws Exception {
         repository.delete(SECOND_RESTAURANT_ID);
-        MATCHER.assertCollectionEquals(Arrays.asList(FIRST_RESTAURANT , THIRD_RESTAURANT), repository.getAll());
+        MATCHER.assertListEquals(Arrays.asList(FIRST_RESTAURANT , THIRD_RESTAURANT), repository.getAll());
     }
 
     @Test(expected = NotFoundException.class)

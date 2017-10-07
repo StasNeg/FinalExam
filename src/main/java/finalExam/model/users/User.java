@@ -92,7 +92,7 @@ public class User extends IdNamedAbstractClass{
         super(user.getId(), user.getName());
         this.email = user.getEmail();
         this.roles = user.getRoles();
-        this.password = getPassword();
+        this.password = user.getPassword();
     }
     public User(Integer id, String name, String email, String password, Set<Role> role) {
         super(id, name);
@@ -171,11 +171,13 @@ public class User extends IdNamedAbstractClass{
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
+                ", id=" + id +
                 ", email='" + email + '\'' +
                 ", roles=" + roles +
+                ", password='" + password + '\'' +
                 ", registered=" + registered +
+//                ", votes=" + votes +
                 '}';
     }
 }

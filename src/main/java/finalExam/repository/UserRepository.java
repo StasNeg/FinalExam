@@ -16,4 +16,6 @@ public interface UserRepository {
 
     User getByEmail(String email);
 
+    void evictCache();
+
 }
