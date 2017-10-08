@@ -1,6 +1,6 @@
 package finalExam.controller.user;
 
-import finalExam.model.users.User;
+import finalExam.model.user.User;
 import finalExam.repository.UserRepository;
 import finalExam.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = AdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRestController {
-    public static final String REST_URL = "/rest/admin/users";
+    public static final String REST_URL = "/rest/admin/user";
     @Autowired
     private UserRepository repository;
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

@@ -1,9 +1,8 @@
 package finalExam.repository;
 
-import finalExam.AuthorizedUser;
 import finalExam.model.restaurant.Restaurant;
-import finalExam.model.users.User;
-import finalExam.model.votes.Vote;
+import finalExam.model.user.User;
+import finalExam.model.vote.Vote;
 import finalExam.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,7 +13,6 @@ import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.List;
 
-import static finalExam.util.UserUtil.fromTo;
 import static finalExam.util.ValidationUtil.TIME_VOTE_LIMIT;
 import static finalExam.util.ValidationUtil.onTimeVote;
 import static java.time.LocalDate.now;

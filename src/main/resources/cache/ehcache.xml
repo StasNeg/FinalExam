@@ -30,7 +30,7 @@
            maxElementsInMemory="25000"/>
 
 
-    <cache name="users"
+    <cache name="user"
            timeToLiveSeconds="60"
            maxElementsInMemory="1000"
            eternal="false"
@@ -40,7 +40,7 @@
            diskExpiryThreadIntervalSeconds="1"
            memoryStoreEvictionPolicy="LRU"/>
 
-    <cache name="finalExam.model.users.User"
+    <cache name="finalExam.model.user.User"
            maxElementsInMemory="25000"/>
 
 </ehcache>

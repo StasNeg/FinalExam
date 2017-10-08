@@ -1,8 +1,6 @@
 package finalExam.repository;
-import finalExam.model.users.User;
-import finalExam.model.votes.Vote;
+import finalExam.model.user.User;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface UserRepository {

@@ -25,11 +25,12 @@ public class JPARestaurantRepositoryImpl implements RestaurantRepository {
         return em.createNamedQuery(Restaurant.ALL, Restaurant.class).getResultList();
     }
 
+    @Cacheable("restaurants")
     @Override
     public Restaurant get(Integer id) {
-        Restaurant getRestaunat = em.find(Restaurant.class, id);
-        if (getRestaunat == null) throw new NotFoundException("Restaurant with id " + id + " is not available");
-        return getRestaunat;
+        Restaurant getRestaurant = em.find(Restaurant.class, id);
+        if (getRestaurant == null) throw new NotFoundException("Restaurant with id " + id + " is not available");
+        return getRestaurant;
     }
 
     @CacheEvict(value = "restaurants", allEntries = true)

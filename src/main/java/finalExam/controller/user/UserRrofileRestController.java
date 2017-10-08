@@ -2,7 +2,7 @@ package finalExam.controller.user;
 
 
 import finalExam.AuthorizedUser;
-import finalExam.model.users.User;
+import finalExam.model.user.User;
 import finalExam.repository.UserRepository;
 import finalExam.to.UserTo;
 import finalExam.util.UserUtil;

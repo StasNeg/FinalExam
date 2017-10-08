@@ -2,13 +2,12 @@ package finalExam.repository;
 
 import finalExam.matcher.BeanMatcher;
 import finalExam.model.restaurant.Restaurant;
-import finalExam.model.votes.Vote;
+import finalExam.model.vote.Vote;
 import finalExam.testData.UserTestData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;

@@ -1,7 +1,6 @@
 package finalExam;
 
-import finalExam.AuthorizedUser;
-import finalExam.model.users.User;
+import finalExam.model.user.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;

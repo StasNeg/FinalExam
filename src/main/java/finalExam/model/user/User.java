@@ -1,8 +1,8 @@
-package finalExam.model.users;
+package finalExam.model.user;
 
 
 import finalExam.model.IdNamedAbstractClass;
-import finalExam.model.votes.Vote;
+import finalExam.model.vote.Vote;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -11,7 +11,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -177,7 +176,7 @@ public class User extends IdNamedAbstractClass{
                 ", roles=" + roles +
                 ", password='" + password + '\'' +
                 ", registered=" + registered +
-//                ", votes=" + votes +
+//                ", vote=" + vote +
                 '}';
     }
 }

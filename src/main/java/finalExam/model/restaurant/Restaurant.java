@@ -3,7 +3,7 @@ package finalExam.model.restaurant;
 
 import finalExam.model.IdNamedAbstractClass;
 import finalExam.model.meal.Meal;
-import finalExam.model.votes.Vote;
+import finalExam.model.vote.Vote;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.validator.constraints.NotBlank;
 

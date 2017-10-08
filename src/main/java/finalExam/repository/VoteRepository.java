@@ -1,8 +1,8 @@
 package finalExam.repository;
 
 import finalExam.model.restaurant.Restaurant;
-import finalExam.model.users.User;
-import finalExam.model.votes.Vote;
+import finalExam.model.user.User;
+import finalExam.model.vote.Vote;
 
 
 import java.time.LocalDate;

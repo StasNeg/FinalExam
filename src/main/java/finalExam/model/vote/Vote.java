@@ -1,8 +1,8 @@
-package finalExam.model.votes;
+package finalExam.model.vote;
 
 import finalExam.model.IdAbstractClass;
 import finalExam.model.restaurant.Restaurant;
-import finalExam.model.users.User;
+import finalExam.model.user.User;
 import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;

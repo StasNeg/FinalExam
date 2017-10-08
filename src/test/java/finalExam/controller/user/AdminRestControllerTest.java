@@ -1,9 +1,9 @@
-package finalExam.controller;
+package finalExam.controller.user;
 
+import finalExam.controller.AbstractControllerTest;
 import finalExam.controller.json.JsonUtil;
-import finalExam.controller.user.AdminRestController;
-import finalExam.model.users.Role;
-import finalExam.model.users.User;
+import finalExam.model.user.Role;
+import finalExam.model.user.User;
 import finalExam.TestUtil;
 
 import org.junit.Test;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 
-public class AdminRestControllerTest extends AbstractControllerTest{
+public class AdminRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = AdminRestController.REST_URL + '/';
 
     @Test

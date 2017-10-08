@@ -2,9 +2,8 @@ package finalExam.controller.vote;
 
 
 import finalExam.AuthorizedUser;
-import finalExam.model.votes.Vote;
+import finalExam.model.vote.Vote;
 import finalExam.repository.VoteRepository;
-import finalExam.to.RestaurantWithPriceTotal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-import static finalExam.util.RestaurantUtil.getFromSumTotal;
 import static finalExam.util.UserUtil.fromTo;
 
 

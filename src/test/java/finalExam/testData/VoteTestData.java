@@ -1,7 +1,7 @@
 package finalExam.testData;
 
 import finalExam.matcher.BeanMatcher;
-import finalExam.model.votes.Vote;
+import finalExam.model.vote.Vote;
 
 
 import java.util.Objects;

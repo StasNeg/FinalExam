@@ -1,8 +1,8 @@
 package finalExam.util;
 
 
-import finalExam.model.users.Role;
-import finalExam.model.users.User;
+import finalExam.model.user.Role;
+import finalExam.model.user.User;
 import finalExam.to.UserTo;
 
 public class UserUtil {

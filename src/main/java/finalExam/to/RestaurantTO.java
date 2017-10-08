@@ -2,7 +2,7 @@ package finalExam.to;
 
 import java.time.LocalDate;
 
-public class RestaurantWithPriceTotal {
+public class RestaurantTO {
 
     private Integer id;
     private String name;
@@ -10,10 +10,10 @@ public class RestaurantWithPriceTotal {
     private LocalDate date;
     private Double priceTotal;
 
-    public RestaurantWithPriceTotal(){
+    public RestaurantTO(){
     }
 
-    public RestaurantWithPriceTotal(Integer id, String name, String address, LocalDate date, Double priceTotal) {
+    public RestaurantTO(Integer id, String name, String address, LocalDate date, Double priceTotal) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -39,5 +39,16 @@ public class RestaurantWithPriceTotal {
 
     public Double getPriceTotal() {
         return priceTotal;
+    }
+
+    @Override
+    public String toString() {
+        return "RestaurantTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", date=" + date +
+                ", priceTotal=" + priceTotal +
+                '}';
     }
 }

@@ -1,8 +1,8 @@
 package finalExam.testData;
 
 import finalExam.matcher.BeanMatcher;
-import finalExam.model.users.Role;
-import finalExam.model.users.User;
+import finalExam.model.user.Role;
+import finalExam.model.user.User;
 import java.util.Objects;
 
 import static finalExam.model.IdNamedAbstractClass.START_SEQ;

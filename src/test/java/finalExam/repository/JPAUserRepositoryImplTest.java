@@ -1,7 +1,7 @@
 package finalExam.repository;
 
-import finalExam.model.users.Role;
-import finalExam.model.users.User;
+import finalExam.model.user.Role;
+import finalExam.model.user.User;
 
 import finalExam.util.exception.NotFoundException;
 import org.junit.Test;
@@ -15,7 +15,6 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

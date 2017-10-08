@@ -2,7 +2,7 @@ package finalExam.controller.restaurants;
 
 import finalExam.model.restaurant.Restaurant;
 import finalExam.repository.RestaurantRepository;
-import finalExam.to.RestaurantWithPriceTotal;
+import finalExam.to.RestaurantTO;
 import finalExam.util.RestaurantUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 @RestController
 @RequestMapping(value = RestaurantAdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantAdminRestController {
-    static final String REST_URL = "/rest/admin/restaurants";
+    public static final String REST_URL = "/rest/admin/restaurants";
     @Autowired
     RestaurantRepository repository;
 
@@ -27,17 +27,17 @@ public class RestaurantAdminRestController {
 
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody RestaurantWithPriceTotal restaurant) {
+    public void update(@RequestBody RestaurantTO restaurant) {
         Restaurant update = RestaurantUtil.getFromSumTotal(restaurant);
         if (!update.isNew())
             repository.save(RestaurantUtil.getFromSumTotal(restaurant));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RestaurantWithPriceTotal> createWithLocation(@RequestBody RestaurantWithPriceTotal restaurant) {
+    public ResponseEntity<RestaurantTO> createWithLocation(@RequestBody RestaurantTO restaurant) {
         Restaurant newRestaurant = RestaurantUtil.getFromSumTotal(restaurant);
         if (newRestaurant.isNew()) {
-            RestaurantWithPriceTotal created = RestaurantUtil
+            RestaurantTO created = RestaurantUtil
                     .getWithSumTotal(Arrays.asList(repository.save(newRestaurant)))
                     .get(0);
             URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
