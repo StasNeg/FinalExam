@@ -4,6 +4,7 @@ import finalExam.model.user.Role;
 import finalExam.model.user.User;
 
 import finalExam.util.exception.NotFoundException;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -32,6 +33,11 @@ public class JPAUserRepositoryImplTest {
 
     static {
         SLF4JBridgeHandler.install();
+    }
+
+    @Before
+    public void setUp() {
+        repository.evictCache();
     }
 
     @Autowired

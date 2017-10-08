@@ -67,7 +67,7 @@ public class MealControllerTest extends AbstractControllerTest {
     public void testUpdate() throws Exception {
         Meal updated = repository.get(MEAL_FIRST_ID, FIRST_RESTAURANT_ID);
         updated.setName("UpdatedName");
-        mockMvc.perform(put(ADMIN_REST_URL+ FIRST_RESTAURANT_ID + '/')
+        mockMvc.perform(put(ADMIN_REST_URL+ FIRST_RESTAURANT_ID + '/'+MEAL_FIRST_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
                 .content(JsonUtil.writeValue(updated)))

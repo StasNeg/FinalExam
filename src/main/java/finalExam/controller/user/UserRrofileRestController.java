@@ -18,6 +18,7 @@ public class UserRrofileRestController {
     @Autowired
     UserRepository repository;
 
+    @GetMapping
     public User get() {
         return repository.get(AuthorizedUser.id());
     }
@@ -32,4 +33,5 @@ public class UserRrofileRestController {
         if (UserUtil.assureIdConsistent(userTo, AuthorizedUser.id()))
             repository.save(UserUtil.createNewFromTo(userTo));
     }
+
 }

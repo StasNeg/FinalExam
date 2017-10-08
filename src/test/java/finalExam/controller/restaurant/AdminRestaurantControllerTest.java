@@ -63,7 +63,7 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     public void testUpdate() throws Exception {
         Restaurant updated = restaurantRepository.get(FIRST_RESTAURANT_ID);
         updated.setName("UpdatedName");
-        mockMvc.perform(put(ADMIN_REST_URL)
+        mockMvc.perform(put(ADMIN_REST_URL+FIRST_RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
                 .content(JsonUtil.writeValue(getWithSumTotal(updated))))

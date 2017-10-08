@@ -2,6 +2,7 @@ package finalExam.controller.meal;
 
 import finalExam.model.meal.Meal;
 import finalExam.repository.MealRepository;
+import finalExam.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +23,9 @@ public class MealAdminRestController {
         repository.delete(id, restaurantId);
     }
 
-    @PutMapping(value = "/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody Meal meal, @PathVariable("restaurantId") int restaurantId) {
-        if (!meal.isNew())
+    @PutMapping(value = "/{restaurantId}/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void update(@RequestBody Meal meal, @PathVariable("restaurantId") int restaurantId, @PathVariable("id") int id) {
+            ValidationUtil.assureIdConsistent(meal, id);
             repository.save(meal, restaurantId);
     }
 

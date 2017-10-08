@@ -3,6 +3,7 @@ package finalExam.repository;
 import finalExam.matcher.BeanMatcher;
 import finalExam.model.restaurant.Restaurant;
 import finalExam.util.exception.NotFoundException;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -38,8 +39,11 @@ public class JPARestaurantRepositoryImplTest {
 
     @Autowired
     private RestaurantRepository repository;
-    @Autowired
-    private MealRepository mealRepository;
+
+    @Before
+    public void setUp() {
+        repository.evictCache();
+    }
 
     private BeanMatcher<Restaurant> MATCHER = BeanMatcher.of(Restaurant.class);
 

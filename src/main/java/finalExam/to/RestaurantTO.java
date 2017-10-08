@@ -1,8 +1,10 @@
 package finalExam.to;
 
+import finalExam.HasId;
+
 import java.time.LocalDate;
 
-public class RestaurantTO {
+public class RestaurantTO implements HasId{
 
     private Integer id;
     private String name;
@@ -39,6 +41,16 @@ public class RestaurantTO {
 
     public Double getPriceTotal() {
         return priceTotal;
+    }
+
+    @Override
+    public boolean isNew() {
+        return id==null;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id =id;
     }
 
     @Override

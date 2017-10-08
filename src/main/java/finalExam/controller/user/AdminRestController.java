@@ -19,6 +19,7 @@ public class AdminRestController {
     public static final String REST_URL = "/rest/admin/user";
     @Autowired
     private UserRepository repository;
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAll() {
         return repository.getAll();

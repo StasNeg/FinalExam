@@ -21,6 +21,7 @@ public class RestaurantRestController {
     public RestaurantTO get(@PathVariable("id") int id) {
         return RestaurantUtil.getWithSumTotal(repository.get(id));
     }
+
     @GetMapping
     public List<RestaurantTO> getAll() {
         return RestaurantUtil.getWithSumTotal(repository.getAll());
