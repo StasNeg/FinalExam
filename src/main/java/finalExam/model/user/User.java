@@ -1,8 +1,8 @@
-package finalExam.model.users;
+package finalExam.model.user;
 
 
 import finalExam.model.IdNamedAbstractClass;
-import finalExam.model.votes.Vote;
+import finalExam.model.vote.Vote;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -11,7 +11,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -92,7 +91,7 @@ public class User extends IdNamedAbstractClass{
         super(user.getId(), user.getName());
         this.email = user.getEmail();
         this.roles = user.getRoles();
-        this.password = getPassword();
+        this.password = user.getPassword();
     }
     public User(Integer id, String name, String email, String password, Set<Role> role) {
         super(id, name);
@@ -171,11 +170,13 @@ public class User extends IdNamedAbstractClass{
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
+                ", id=" + id +
                 ", email='" + email + '\'' +
                 ", roles=" + roles +
+                ", password='" + password + '\'' +
                 ", registered=" + registered +
+//                ", vote=" + vote +
                 '}';
     }
 }

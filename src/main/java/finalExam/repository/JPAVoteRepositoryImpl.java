@@ -1,9 +1,10 @@
 package finalExam.repository;
 
 import finalExam.model.restaurant.Restaurant;
-import finalExam.model.users.User;
-import finalExam.model.votes.Vote;
+import finalExam.model.user.User;
+import finalExam.model.vote.Vote;
 import finalExam.util.exception.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,10 @@ import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.List;
 
+import static finalExam.util.ValidationUtil.TIME_VOTE_LIMIT;
+import static finalExam.util.ValidationUtil.onTimeVote;
+import static java.time.LocalDate.now;
+
 @Repository
 @Transactional(readOnly = true)
 public class JPAVoteRepositoryImpl implements VoteRepository{
@@ -19,34 +24,59 @@ public class JPAVoteRepositoryImpl implements VoteRepository{
     @PersistenceContext
     private EntityManager em;
 
-    @Override
-    public Vote get(Integer id) {
-        Vote vote = em.find(Vote.class, id);
-        return vote;
-    }
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
-    @Transactional
-    @Override
-    public void delete(Integer id) {
-        if (em.createNamedQuery(Vote.DELETE)
-                .setParameter("id", id)
-                .executeUpdate() == 0) throw new NotFoundException("Vote with id" + id + "is not available");
-    }
-
-    @Override
-    @Transactional
-    public Vote save(Vote vote) {
-        if (vote.isNew()) {
-            em.persist(vote);
-            return vote;
-        } else {
-            return em.merge(vote);
-        }
-    }
 
     @Override
     public List<Vote> getAll() {
         return em.createNamedQuery(Vote.ALL, Vote.class).getResultList();
+    }
+
+    private Vote getByUserAndDate(Integer userId, LocalDate voteDate) {
+        List<Vote> votes = em.createNamedQuery(Vote.GET_BY_USER_AND_DATE, Vote.class)
+                .setParameter("userId", userId)
+                .setParameter("voteDate", voteDate)
+                .getResultList();
+        return votes.size() > 0 ? votes.get(0) : null;
+    }
+
+    @Transactional
+    @Override
+    public Vote save(Restaurant restaurant, User user) {
+        restaurant = restaurantRepository.get(restaurant.getId());
+        Vote save = getByUserAndDate(user.getId(), now());
+        if (save == null) {
+            save = new Vote(null, user, restaurant, now());
+        } else {
+            save.setRestaurant(restaurant);
+        }
+        return save(save);
+    }
+    @Transactional
+    @Override
+    public Vote save(Integer restaurantId, User user) {
+        Restaurant restaurant = restaurantRepository.get(restaurantId);
+        Vote save = getByUserAndDate(user.getId(), now());
+        if (save == null) {
+            save = new Vote(null, user, restaurant, now());
+        } else {
+            save.setRestaurant(restaurant);
+        }
+        return save(save);
+    }
+
+
+    private Vote save(Vote save) {
+        if (save.isNew()) {
+            em.persist(save);
+            return save;
+        } else {
+            if (onTimeVote()) {
+                return em.merge(save);
+            }
+            throw new NotFoundException("You can't voting again, after" + TIME_VOTE_LIMIT + "'Clock");
+        }
     }
 
     @Override

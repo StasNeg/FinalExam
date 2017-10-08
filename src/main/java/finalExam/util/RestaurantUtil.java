@@ -1,24 +1,24 @@
 package finalExam.util;
 
+import finalExam.model.meal.Meal;
 import finalExam.model.restaurant.Restaurant;
-import finalExam.to.RestaurantWithPriceTotal;
+import finalExam.to.RestaurantTO;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-/**
- * Created by Stanislav on 05.10.2017.
- */
+
 public class RestaurantUtil {
-    public static List<RestaurantWithPriceTotal> getWithSumTotal(List<Restaurant> restaurants) {
-        return restaurants.stream().map(x -> {
-            final double[] total = {0};
-            x.getMeals().forEach(y -> total[0] += y.getPrice());
-            return new RestaurantWithPriceTotal(x.getId(), x.getName(), x.getAddress(), x.getDate(), total[0]);
-        }).collect(Collectors.toList());
+    public static List<RestaurantTO> getWithSumTotal(List<Restaurant> restaurants) {
+        return restaurants.stream().map(RestaurantUtil::getWithSumTotal).collect(Collectors.toList());
     }
-    public static Restaurant getFromSumTotal(RestaurantWithPriceTotal restaurant) {
+    public static Restaurant getFromSumTotal(RestaurantTO restaurant) {
         return new Restaurant(restaurant.getId(),restaurant.getName(),restaurant.getAddress(),restaurant.getDate());
     }
+
+    public static RestaurantTO getWithSumTotal(Restaurant restaurant){
+        return new RestaurantTO(restaurant.getId(), restaurant.getName(), restaurant.getAddress(), restaurant.getDate(),
+                restaurant.getMeals().stream().mapToDouble(Meal::getPrice).sum());
+    }
+
 }

@@ -1,4 +1,4 @@
-package finalExam.model.users;
+package finalExam.model.user;
 
 import org.springframework.security.core.GrantedAuthority;
 

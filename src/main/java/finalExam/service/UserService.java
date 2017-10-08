@@ -1,7 +1,7 @@
 package finalExam.service;
 
 import finalExam.AuthorizedUser;
-import finalExam.model.users.User;
+import finalExam.model.user.User;
 import finalExam.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;

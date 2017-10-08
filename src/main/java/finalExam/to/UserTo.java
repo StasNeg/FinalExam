@@ -1,29 +1,21 @@
 package finalExam.to;
 
-import finalExam.util.UserUtil;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
-
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
 public class UserTo  {
     private static final long serialVersionUID = 1L;
-
     private Integer id;
     @NotBlank
     private String name;
     @Email
     @NotBlank
     private String email;
-
     @Size(min = 5, max = 32, message = "length must between 5 and 32 characters")
     private String password;
-
-
-
     public UserTo() {
     }
 

@@ -1,8 +1,6 @@
 package finalExam.repository;
-import finalExam.model.users.User;
-import finalExam.model.votes.Vote;
+import finalExam.model.user.User;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface UserRepository {
@@ -15,5 +13,7 @@ public interface UserRepository {
     User save(User user);
 
     User getByEmail(String email);
+
+    void evictCache();
 
 }

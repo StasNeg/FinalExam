@@ -29,4 +29,18 @@
     <cache name="finalExam.model.restaurant.Restaurant"
            maxElementsInMemory="25000"/>
 
+
+    <cache name="user"
+           timeToLiveSeconds="60"
+           maxElementsInMemory="1000"
+           eternal="false"
+           overflowToDisk="false"
+           maxElementsOnDisk="10000000"
+           diskPersistent="false"
+           diskExpiryThreadIntervalSeconds="1"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="finalExam.model.user.User"
+           maxElementsInMemory="25000"/>
+
 </ehcache>

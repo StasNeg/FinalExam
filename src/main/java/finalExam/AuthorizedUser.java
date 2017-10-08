@@ -1,6 +1,6 @@
 package finalExam;
 
-import finalExam.model.users.User;
+import finalExam.model.user.User;
 import finalExam.to.UserTo;
 import finalExam.util.UserUtil;
 import org.springframework.security.core.Authentication;

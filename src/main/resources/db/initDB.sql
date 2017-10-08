@@ -38,9 +38,10 @@ CREATE UNIQUE INDEX restaurants_unique_address__date_idx
 
 CREATE TABLE meals (
   id             INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  restaurants_id INTEGER NOT NULL,
-  name           TEXT    NOT NULL,
-  price          INT     NOT NULL,
+  restaurants_id INTEGER         NOT NULL,
+  name           TEXT            NOT NULL,
+  price          NUMERIC(100, 2) NOT NULL,
+
   FOREIGN KEY (restaurants_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
 CREATE UNIQUE INDEX meals_unique_name_restaurantID_price_idx ON meals(name,restaurants_id, price);
@@ -48,10 +49,10 @@ CREATE INDEX meals_restaurantID_idx ON meals(restaurants_id);
 
 CREATE TABLE votes
 (
-  id         INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  restaurant_id INTEGER NOT NULL,
-  user_id INTEGER NOT NULL,
-  date    TIMESTAMP NOT NULL
+  id            INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+  restaurant_id INTEGER   NOT NULL,
+  user_id       INTEGER   NOT NULL,
+  date_vote     TIMESTAMP NOT NULL
 );
-CREATE UNIQUE INDEX votes_unique_date_user_idx
-  ON votes(date, user_id);
+CREATE UNIQUE INDEX votes_unique_user_restaurant_idx
+  ON votes (restaurant_id, user_id);
