@@ -10,19 +10,19 @@ import java.util.List;
 @RestController
 @RequestMapping(value = MealRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MealRestController {
-    static final String REST_URL = "/rest/meals";
+    static final String REST_URL = "/rest/menu";
 
     @Autowired
     MealRepository repository;
 
-    @GetMapping("/{restaurantId}/{id}")
-    public Meal get(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) {
-        return repository.get(id, restaurantId);
+    @GetMapping("/{menuId}/meals/{id}")
+    public Meal get(@PathVariable("id") int id, @PathVariable("menuId") int menuId) {
+        return repository.get(id, menuId);
     }
 
-    @GetMapping(value = "/{restaurantId}")
-    public List<Meal> getAll(@PathVariable("restaurantId") int restaurantId) {
-        List<Meal> meals = repository.getAll(restaurantId);
+    @GetMapping(value = "/{menuId}")
+    public List<Meal> getAll(@PathVariable("menuId") int menuId) {
+        List<Meal> meals = repository.getAll(menuId);
         return meals;
     }
 

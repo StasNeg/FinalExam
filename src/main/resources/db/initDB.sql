@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS votes;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS meals;
+DROP TABLE IF EXISTS menu;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS restaurants;
 DROP SEQUENCE IF EXISTS global_seq;
@@ -28,31 +29,42 @@ CREATE TABLE user_roles
 );
 
 CREATE TABLE restaurants (
-  id      INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  date    TIMESTAMP NOT NULL,
+  id      INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),  
   name    TEXT      NOT NULL,
   address TEXT      NOT NULL
 );
-CREATE UNIQUE INDEX restaurants_unique_address__date_idx
-  ON restaurants (date, address);
+CREATE UNIQUE INDEX restaurants_unique_address_idx
+  ON restaurants (address);
 
-CREATE TABLE meals (
+CREATE TABLE menu (
   id             INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  restaurants_id INTEGER         NOT NULL,
-  name           TEXT            NOT NULL,
-  price          NUMERIC(100, 2) NOT NULL,
-
+  restaurants_id INTEGER   NOT NULL,
+  date           TIMESTAMP NOT NULL,
   FOREIGN KEY (restaurants_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX meals_unique_name_restaurantID_price_idx ON meals(name,restaurants_id, price);
-CREATE INDEX meals_restaurantID_idx ON meals(restaurants_id);
+CREATE UNIQUE INDEX restaurants_unique_menuIdx__date_idx
+  ON menu (date, restaurants_id);
+
+CREATE TABLE meals (
+  id      INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+  menu_id INTEGER         NOT NULL,
+  name    TEXT            NOT NULL,
+  price   NUMERIC(100, 2) NOT NULL,
+  FOREIGN KEY (menu_id) REFERENCES menu (id) ON DELETE CASCADE
+);
+CREATE UNIQUE INDEX meals_unique_name_menuID_price_idx
+  ON meals (name, menu_id, price);
+CREATE INDEX meals_menuID_idx
+  ON meals (menu_id);
 
 CREATE TABLE votes
 (
   id            INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
   restaurant_id INTEGER   NOT NULL,
   user_id       INTEGER   NOT NULL,
-  date_vote     TIMESTAMP NOT NULL
+  date_vote     TIMESTAMP NOT NULL,
+  FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 CREATE UNIQUE INDEX votes_unique_user_restaurant_idx
   ON votes (restaurant_id, user_id);

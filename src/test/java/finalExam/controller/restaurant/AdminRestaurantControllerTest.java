@@ -7,7 +7,7 @@ import finalExam.controller.restaurants.RestaurantAdminRestController;
 import finalExam.controller.restaurants.RestaurantRestController;
 import finalExam.matcher.BeanMatcher;
 import finalExam.model.restaurant.Restaurant;
-import finalExam.to.RestaurantTO;
+import finalExam.to.MenuTo;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
@@ -18,7 +18,7 @@ import static finalExam.TestUtil.userHttpBasic;
 import static finalExam.testData.RestaurantMealTestData.*;
 
 import static finalExam.testData.UserTestData.ADMIN;
-import static finalExam.util.RestaurantUtil.getWithSumTotal;
+
 import static java.time.LocalDate.now;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AdminRestaurantControllerTest extends AbstractControllerTest {
     private static final String REST_URL = RestaurantRestController.REST_URL + '/';
     private static final String ADMIN_REST_URL = RestaurantAdminRestController.REST_URL + '/';
-    private final BeanMatcher<RestaurantTO> MATCHER = BeanMatcher.of(RestaurantTO.class);
+    private final BeanMatcher<Restaurant> MATCHER = BeanMatcher.of(Restaurant.class);
 
     @Test
     public void testGet() throws Exception {
@@ -39,7 +39,7 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 // https://jira.spring.io/browse/SPR-14472
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentMatcher(getWithSumTotal(FIRST_RESTAURANT)));
+                .andExpect(MATCHER.contentMatcher(FIRST_RESTAURANT));
     }
 
 
@@ -49,7 +49,7 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isOk());
-        MATCHER.assertListEquals(Arrays.asList(getWithSumTotal(SECOND_RESTAURANT), getWithSumTotal(THIRD_RESTAURANT)), getWithSumTotal(restaurantRepository.getAll()));
+        MATCHER.assertListEquals(Arrays.asList(SECOND_RESTAURANT),restaurantRepository.getAll());
     }
 
     @Test
@@ -66,28 +66,28 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
         mockMvc.perform(put(ADMIN_REST_URL+FIRST_RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(getWithSumTotal(updated))))
+                .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isOk());
-        MATCHER.assertEquals(getWithSumTotal(updated), getWithSumTotal(restaurantRepository.get(FIRST_RESTAURANT_ID)));
+        MATCHER.assertEquals(updated, restaurantRepository.get(FIRST_RESTAURANT_ID));
     }
 
     @Test
     public void testCreate() throws Exception {
-        Restaurant expected = new Restaurant(null, "New", "NEW", now());
+        Restaurant expected = new Restaurant(null, "New", "NEW");
         ResultActions action = mockMvc.perform(post(ADMIN_REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(getWithSumTotal(expected)))).andExpect(status().isCreated());
+                .content(JsonUtil.writeValue(expected))).andExpect(status().isCreated());
 
-        RestaurantTO returned = MATCHER.fromJsonAction(action);
+        Restaurant returned = MATCHER.fromJsonAction(action);
         expected.setId(returned.getId());
-        MATCHER.assertEquals(getWithSumTotal(expected), returned);
+        MATCHER.assertEquals(expected, returned);
         MATCHER.assertListEquals(Arrays.asList(
-                getWithSumTotal(FIRST_RESTAURANT),
-                getWithSumTotal(SECOND_RESTAURANT),
-                getWithSumTotal(THIRD_RESTAURANT),
-                getWithSumTotal(expected)),
-                getWithSumTotal(restaurantRepository.getAll()));
+                FIRST_RESTAURANT,
+                SECOND_RESTAURANT,
+
+                expected),
+                restaurantRepository.getAll());
     }
 
     @Test
@@ -96,6 +96,6 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentListMatcher(getWithSumTotal(FIRST_RESTAURANT), getWithSumTotal(SECOND_RESTAURANT), getWithSumTotal(THIRD_RESTAURANT))));
+                .andExpect(MATCHER.contentListMatcher(FIRST_RESTAURANT, SECOND_RESTAURANT)));
     }
 }

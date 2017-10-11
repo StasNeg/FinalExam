@@ -7,19 +7,12 @@ import java.util.List;
 
 public interface RestaurantRepository {
 
-    List<Restaurant> getAll();
-
     Restaurant get(Integer id);
 
     void delete(Integer id);
 
     Restaurant save(Restaurant restaurant);
 
-    List<Restaurant> getByNameWithMeals(String name);
+    List<Restaurant> getAll();
 
-    List<Restaurant> getByNameBetweenDates(String name, LocalDate startDate, LocalDate endDate);
-
-    List<Restaurant> getBetweenDates(LocalDate startDate, LocalDate endDate);
-
-    void evictCache();
 }

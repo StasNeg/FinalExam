@@ -16,7 +16,7 @@
             diskExpiryThreadIntervalSeconds="120"
             memoryStoreEvictionPolicy="LRU"/>
 
-    <cache name="restaurants"
+    <cache name="menu"
            timeToLiveSeconds="60"
            maxElementsInMemory="1000"
            eternal="false"
@@ -26,7 +26,7 @@
            diskExpiryThreadIntervalSeconds="1"
            memoryStoreEvictionPolicy="LRU"/>
 
-    <cache name="finalExam.model.restaurant.Restaurant"
+    <cache name="finalExam.model.menu.Menu"
            maxElementsInMemory="25000"/>
 
 

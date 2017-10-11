@@ -6,6 +6,7 @@ import finalExam.model.user.User;
 import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @NamedQueries({
@@ -17,19 +18,22 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "user_id"}, name = "votes_unique_restaurantId_userId_idx")})
+@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "user_id", "date_vote"}, name = "votes_unique_restaurantId_userId__dateVoteidx")})
 public class Vote extends IdAbstractClass {
     public static final String ALL = "Vote.getAll";
     public static final String GET_ALL_USERS_BY_DATE = "Vote.getUserByDay";
     public static final String GET_ALL_RESTAURANT_BY_DATE = "Vote.getRestaurantByDay";
     public static final String GET_BY_USER_AND_DATE = "Vote.getByUserIdAndDate";
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
+    @NotNull
     @BatchSize(size = 200)
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @NotNull
     @BatchSize(size = 200)
     private User user;
 

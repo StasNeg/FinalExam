@@ -1,6 +1,8 @@
-package finalExam.repository;
+package finalExam.repository.jpaImp;
 
 import finalExam.model.user.User;
+import finalExam.repository.AbstractDaoImpl;
+import finalExam.repository.UserRepository;
 import finalExam.util.exception.NotFoundException;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,10 +18,14 @@ import java.util.List;
 
 @Repository
 @Transactional(readOnly = true)
-public class JPAUserRepositoryImpl implements UserRepository {
+public class JPAUserRepositoryImpl extends AbstractDaoImpl<User> implements UserRepository {
 
-    @PersistenceContext
-    private EntityManager em;
+    public JPAUserRepositoryImpl() {
+        super(User.class);
+    }
+
+    //    @PersistenceContext
+//    private EntityManager em;
 
     @Override
     @CacheEvict(value = "user", allEntries = true)

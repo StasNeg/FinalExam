@@ -1,8 +1,10 @@
 package finalExam.controller;
 
+import finalExam.repository.MenuRepository;
 import finalExam.repository.RestaurantRepository;
 import finalExam.repository.UserRepository;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,6 +32,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
+@Ignore
 public class AbstractControllerTest {
 
     private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
@@ -45,7 +48,12 @@ public class AbstractControllerTest {
     protected UserRepository userRepository;
 
     @Autowired
+    protected MenuRepository menuRepository;
+
+    @Autowired
     protected RestaurantRepository restaurantRepository;
+
+
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -62,7 +70,7 @@ public class AbstractControllerTest {
     @Before
     public void setUp() {
         userRepository.evictCache();
-        restaurantRepository.evictCache();
+        menuRepository.evictCache();
     }
 
 }

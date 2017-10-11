@@ -4,7 +4,7 @@ import finalExam.HasId;
 
 import java.time.LocalDate;
 
-public class RestaurantTO implements HasId{
+public class MenuTo implements HasId{
 
     private Integer id;
     private String name;
@@ -12,16 +12,17 @@ public class RestaurantTO implements HasId{
     private LocalDate date;
     private Double priceTotal;
 
-    public RestaurantTO(){
+    public MenuTo(){
     }
 
-    public RestaurantTO(Integer id, String name, String address, LocalDate date, Double priceTotal) {
+    public MenuTo(Integer id, String name, String address, LocalDate date, Double priceTotal) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.date = date;
         this.priceTotal = priceTotal;
     }
+
 
     public Integer getId() {
         return id;
@@ -55,7 +56,7 @@ public class RestaurantTO implements HasId{
 
     @Override
     public String toString() {
-        return "RestaurantTO{" +
+        return "MenuTo{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +

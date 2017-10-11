@@ -14,27 +14,27 @@ import java.net.URI;
 @RestController
 @RequestMapping(value = MealAdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MealAdminRestController {
-    static final String REST_URL = "/rest/admin/meals";
+    static final String REST_URL = "/rest/admin/menu";
     @Autowired
     private MealRepository repository;
 
-    @DeleteMapping("/{restaurantId}/{id}")
-    public void delete(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) {
-        repository.delete(id, restaurantId);
+    @DeleteMapping("/{menuId}/meals/{id}")
+    public void delete(@PathVariable("id") int id, @PathVariable("menuId") int menuId) {
+        repository.delete(id, menuId);
     }
 
-    @PutMapping(value = "/{restaurantId}/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody Meal meal, @PathVariable("restaurantId") int restaurantId, @PathVariable("id") int id) {
+    @PutMapping(value = "/{menuId}/meals/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void update(@RequestBody Meal meal, @PathVariable("menuId") int menuId, @PathVariable("id") int id) {
             ValidationUtil.assureIdConsistent(meal, id);
-            repository.save(meal, restaurantId);
+            repository.save(meal, menuId);
     }
 
-    @PostMapping(value = "/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Meal> createWithLocation(@RequestBody Meal meal, @PathVariable("restaurantId") int restaurantId) {
+    @PostMapping(value = "/{menuId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Meal> createWithLocation(@RequestBody Meal meal, @PathVariable("menuId") int menuId) {
         if (meal.isNew()) {
-            Meal created = repository.save(meal, restaurantId);
+            Meal created = repository.save(meal, menuId);
             URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path(REST_URL + "/{id}")
+                    .path(REST_URL +menuId+"/meals"+ "/{menuId}")
                     .buildAndExpand(created.getId()).toUri();
             return ResponseEntity.created(uriOfNewResource).body(created);
         }
