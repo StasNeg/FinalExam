@@ -28,13 +28,8 @@ public class JPAVoteRepositoryImpl extends AbstractDaoImpl<Vote> implements Vote
         super(Vote.class);
     }
 
-
-    //    @PersistenceContext
-//    private EntityManager em;
-
     @Autowired
     private RestaurantRepository restaurantRepository;
-
 
     @Override
     public List<Vote> getAll() {

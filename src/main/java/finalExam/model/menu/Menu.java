@@ -44,7 +44,7 @@ public class Menu extends IdAbstractClass {
     private Restaurant restaurant;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "menu",
-            cascade = {CascadeType.REMOVE}, orphanRemoval = true)
+            cascade = {CascadeType.REMOVE})
     @BatchSize(size = 200)
     private Set<Meal> meals;
 

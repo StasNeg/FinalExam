@@ -14,6 +14,7 @@ import java.time.LocalDate;
         @NamedQuery(name = Vote.GET_BY_USER_AND_DATE, query = "SELECT v FROM Vote v WHERE v.date=:voteDate AND v.user.id =:userId"),
         @NamedQuery(name = Vote.GET_ALL_USERS_BY_DATE, query = "SELECT new User(v.user) FROM Vote v WHERE v.date=:date"),
         @NamedQuery(name = Vote.GET_ALL_RESTAURANT_BY_DATE, query = "SELECT new Restaurant(v.restaurant) FROM Vote v WHERE v.date=:date")
+
 })
 
 

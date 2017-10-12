@@ -2,8 +2,6 @@ package finalExam.controller.restaurants;
 
 import finalExam.model.restaurant.Restaurant;
 import finalExam.repository.RestaurantRepository;
-import finalExam.to.MenuTo;
-import finalExam.util.MenuUtil;
 import finalExam.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -28,14 +26,13 @@ public class RestaurantAdminRestController {
 
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody Restaurant restaurant, @PathVariable("id") int id) {
+    public Restaurant update(@RequestBody Restaurant restaurant, @PathVariable("id") int id) {
         ValidationUtil.assureIdConsistent(restaurant, id);
-        repository.save(restaurant);
+        return repository.save(restaurant);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createWithLocation(@RequestBody Restaurant restaurant) {
-
         if (restaurant.isNew()) {
             Restaurant created = repository.save(restaurant);
             URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -45,6 +42,4 @@ public class RestaurantAdminRestController {
         }
         return null;
     }
-
-
 }

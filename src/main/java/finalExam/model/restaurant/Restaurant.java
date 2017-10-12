@@ -32,7 +32,7 @@ public class Restaurant extends IdNamedAbstractClass {
     private String address;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant",
-            cascade = {CascadeType.REMOVE}, orphanRemoval = true)
+            cascade = {CascadeType.REMOVE})
     @BatchSize(size = 200)
     private Set<Menu> menus;
 
