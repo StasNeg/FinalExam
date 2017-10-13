@@ -174,8 +174,8 @@ user   | {id: currentId or null, name:"userName", email:"email", password:"passw
 
 ---------------------------------------
 
-## Рестораны
-### Получение конкретного ресторана
+##Рестораны
+###Получение конкретного ресторана
 `GET /rest/restaurants/{id}`
 
 Пример запроса:
@@ -188,7 +188,7 @@ user   | {id: currentId or null, name:"userName", email:"email", password:"passw
 Пример ответа:
 >{"id": 100002,"name": "Континенталь","address": "Декабристов 14"}
 
-### Получение всех ресторанов
+###Получение всех ресторанов
 `GET /rest/restaurants/`
 
 Пример запроса:
@@ -201,7 +201,7 @@ user   | {id: currentId or null, name:"userName", email:"email", password:"passw
 Пример ответа:
 >[{"id": 100002,"name": "Континенталь","address": "Декабристов 14"},{"id": 100003,"name": "Астория","address": "Первого восстания 78"}]
 
-### Создание ресторана
+###Создание ресторана
 *Пользователь должен иметь роль **Admin*** 
 
 `POST /rest/admin/restaurants/`
@@ -226,7 +226,7 @@ restaurant   | {id: null, name:"Имя ресторана", address:"Address" | 
 Пример ответа:
 >{"id": 100021,"name": "Астория","address": "New Ad 78"}
 
-### Редактирование ресторана
+###Редактирование ресторана
 *Пользователь должен иметь роль **Admin*** 
 
 `PUT /rest/admin/restaurants/{id}`
@@ -251,7 +251,7 @@ restaurant   | {id: "id", name:"Имя ресторана", address:"Address" | 
 Пример ответа:
 >{"id": 100021,"name": "Астория","address": "New address 178"}
 
-### Удаление ресторана
+###Удаление ресторана
 *Пользователь должен иметь роль **Admin*** 
 
 `DELETE /rest/admin/restaurants/{id}`
@@ -265,8 +265,8 @@ restaurant   | {id: "id", name:"Имя ресторана", address:"Address" | 
 
 ---------------------------------------
 
-## Ланчи
-### Получение всех ланчей ресторана
+##Ланчи
+###Получение всех ланчей ресторана
 `GET localhost:8080/rest/restaurant/{restaurantId}`
 
 Пример запроса:
@@ -317,7 +317,6 @@ address   | part of field.address | not empty | Да
 Пример ответа:
 >[{"id":100005,"name":"Астория","address":"Первого восстания 78","date":"2015-05-30","priceTotal":173.0},{"id":100007,"name":"Астория","address":"Первого восстания 78","date":"2015-05-31","priceTotal":95.0}]
 
-
 ###Получение всех ланчей ресторана по адресу за период
 `GET localhost:8080/rest/restaurant/ByAddressBetween`
 
@@ -337,7 +336,7 @@ dateEnd   | Date to end | format: yyyy-MM-dd | Да
 Пример ответа:
 >[{"id":100005,"name":"Астория","address":"Первого восстания 78","date":"2015-05-30","priceTotal":173.0}]
 
-### Создание ланча
+###Создание ланча
 *Пользователь должен иметь роль **Admin*** 
 
 `POST /rest/admin/{restaurantId}`
@@ -390,7 +389,7 @@ id   | ID menu | integer number | Да
 Пример ответа:
 >{"id":100021,"name":"Континенталь","address":"Декабристов 14","date":"2017-12-13","priceTotal":0.0}
 
-### Удаление ланча
+###Удаление ланча
 *Пользователь должен иметь роль **Admin*** 
 
 `DELETE /rest/admin/{restaurantId}/menu/{id}`
@@ -490,12 +489,12 @@ id   | ID meals | integer number | Да
   -H 'authorization: Basic YWRtaW5AZ21haWwuY29tOnBhc3N3b3Jk' \
   -H 'cache-control: no-cache' \
   -H 'content-type: application/json' \
-  -H 'postman-token: 83efc8dc-3729-a28c-72ab-14e1f0394dfc' \
-  -d '{"id":100023,"name":"Apple Juice 12","price":44.0}'
+  -H 'postman-token: 83efc8dc-3729-a28c-72ab-14e1f0394dfc'
+  
 
 
-## Голосование
-### Проголосовать
+##Голосование
+###Проголосовать
 `POST rest/vote/`
 
 Параметр | Описание | Ограничения | Обязательный
@@ -514,7 +513,6 @@ restaurantId   | ID ресторана | Целое число | Да
 >{"id":100022,"restaurant":{"id":100003,"name":"Астория","address":"Первого восстания 78"},"user":{"id":100000,"name":"User","email":"user@yandex.ru","roles":["ROLE_USER"],"password":"password","registered":"2017-10-13"},"date":"2017-10-13"}
 
 ---------------------------------------
-
 ###Ограничения
 1. Пользователи.
     - Нельзя создавать пользователей с одинаковым email.
