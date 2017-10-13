@@ -433,7 +433,7 @@ id   | ID menu | integer number | Да
 Пример ответа:
 >{"id":100008,"name":"Сок","price":33.0}
 
-###Создание блюдо
+### Создание блюдо
 *Пользователь должен иметь роль **Admin*** 
 
 `POST /rest/admin/menu/{menuId}`
@@ -456,7 +456,7 @@ menuId   | ID menu | integer number | Да
 Пример ответа:
 >{"id":100021,"name":"Континенталь","address":"Декабристов 14","date":"2017-10-13","priceTotal":0.0}
 
-###Редактирование блюдо
+### Редактирование блюдо
 *Пользователь должен иметь роль **Admin*** 
 
 `POST /rest/admin/menu/{menuId}/meals/{id}`
@@ -479,7 +479,7 @@ id   | ID meals | integer number | Да
 Пример ответа:
 >{"id":100023,"name":"Apple Juice 12","price":44.0}
 
-###Удаление блюдо
+### Удаление блюдо
 *Пользователь должен иметь роль **Admin*** 
 
 `DELETE /rest/admin/menu/{menuId}/meals/{id}`
