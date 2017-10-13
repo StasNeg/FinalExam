@@ -23,10 +23,10 @@ public class VoteRestController {
     @Autowired
     private VoteRepository repository;
 
-    @PutMapping(consumes = MediaType.ALL_VALUE)
-    public void update(@RequestParam(value = "restaurantId") Integer restaurantId) {
-        repository.save(restaurantId, fromTo(AuthorizedUser.get().getUserTo()));
-    }
+//    @PutMapping(consumes = MediaType.ALL_VALUE)
+//    public void update(@RequestParam(value = "restaurantId") Integer restaurantId) {
+//        repository.save(restaurantId, fromTo(AuthorizedUser.get().getUserTo()));
+//    }
 
 
     @PostMapping(consumes = MediaType.ALL_VALUE)

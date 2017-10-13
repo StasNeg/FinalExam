@@ -2,8 +2,6 @@ package finalExam.controller.restaurants;
 
 import finalExam.model.restaurant.Restaurant;
 import finalExam.repository.RestaurantRepository;
-import finalExam.to.RestaurantTO;
-import finalExam.util.RestaurantUtil;
 import finalExam.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -28,17 +26,15 @@ public class RestaurantAdminRestController {
 
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody RestaurantTO restaurant, @PathVariable("id") int id) {
+    public Restaurant update(@RequestBody Restaurant restaurant, @PathVariable("id") int id) {
         ValidationUtil.assureIdConsistent(restaurant, id);
-        repository.save(RestaurantUtil.getFromSumTotal(restaurant));
+        return repository.save(restaurant);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RestaurantTO> createWithLocation(@RequestBody RestaurantTO restaurant) {
-        Restaurant newRestaurant = RestaurantUtil.getFromSumTotal(restaurant);
-        if (newRestaurant.isNew()) {
-            RestaurantTO created = RestaurantUtil
-                    .getWithSumTotal(repository.save(newRestaurant));
+    public ResponseEntity<Restaurant> createWithLocation(@RequestBody Restaurant restaurant) {
+        if (restaurant.isNew()) {
+            Restaurant created = repository.save(restaurant);
             URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path(REST_URL + "/{id}")
                     .buildAndExpand(created.getId()).toUri();
@@ -46,6 +42,4 @@ public class RestaurantAdminRestController {
         }
         return null;
     }
-
-
 }

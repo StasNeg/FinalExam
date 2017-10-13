@@ -6,6 +6,7 @@ import finalExam.model.user.User;
 import finalExam.repository.UserRepository;
 import finalExam.to.UserTo;
 import finalExam.util.UserUtil;
+import finalExam.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +30,10 @@ public class UserRrofileRestController {
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody UserTo userTo) {
+    public User update(@RequestBody UserTo userTo) {
         if (UserUtil.assureIdConsistent(userTo, AuthorizedUser.id()))
-            repository.save(UserUtil.createNewFromTo(userTo));
+            return repository.save(UserUtil.fromTo(userTo));
+        throw new NotFoundException("You try to update non Authorized user");
     }
 
 }

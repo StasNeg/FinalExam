@@ -3,6 +3,7 @@ package finalExam.model.meal;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import finalExam.model.IdNamedAbstractClass;
+import finalExam.model.menu.Menu;
 import finalExam.model.restaurant.Restaurant;
 import org.hibernate.validator.constraints.Range;
 
@@ -11,37 +12,36 @@ import javax.validation.constraints.NotNull;
 
 
 @NamedQueries({
-        @NamedQuery(name = Meal.ALL, query = "SELECT m FROM Meal m WHERE m.restaurant.id=:restaurantId "),
-        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id AND m.restaurant.id=:restaurantId")
+        @NamedQuery(name = Meal.ALL, query = "SELECT m FROM Meal m WHERE m.menu.id=:menuId "),
+        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id AND m.menu.id=:menuId")
 })
 @Entity
 @Table(name = "meals",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"name","restaurants_id","price"}, name = "" +
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"name","menu_id","price"}, name = "" +
         "meals_unique_name_restaurantID_price_idx")})
 public class Meal extends IdNamedAbstractClass {
 
     public static final String ALL = "Meal.getAll";
     public static final String DELETE = "Meal.delete";
 
-
     @Column(name = "price", nullable = false)
     @Range(min = 10, max = 1000)
     private double price;
 
-
-    @CollectionTable(name = "restaurants")
+    @CollectionTable(name = "menu")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurants_id")
+    @JoinColumn(name = "menu_id")
     @NotNull
     @JsonIgnore
-    private Restaurant restaurant;
+    private Menu menu;
 
     public Meal() {
     }
 
-    public Meal(String name, double cost) {
-        this.name = name;
-        this.price = cost;
+    public Meal(Integer id, String name, double price, Menu menu) {
+        super(id, name);
+        this.price = price;
+        this.menu = menu;
     }
 
     public Meal(Integer id, String name, double price) {
@@ -53,25 +53,16 @@ public class Meal extends IdNamedAbstractClass {
         return price;
     }
 
-    public void setPrice(double cost) {
-        this.price = cost;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public Menu getMenu() {
+        return menu;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    @Override
-    public String toString() {
-        return "Meal{" +
-                "id=" + id +
-                ", cost=" + price +
-                ", name='" + name + '\'' +
-                '}'+'\n';
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 
     @Override
@@ -82,8 +73,7 @@ public class Meal extends IdNamedAbstractClass {
 
         Meal meal = (Meal) o;
 
-        if (Double.compare(meal.price, price) != 0) return false;
-        return restaurant != null ? restaurant.equals(meal.restaurant) : meal.restaurant == null;
+        return Double.compare(meal.price, price) == 0;
     }
 
     @Override
@@ -92,7 +82,15 @@ public class Meal extends IdNamedAbstractClass {
         long temp;
         temp = Double.doubleToLongBits(price);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (restaurant != null ? restaurant.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Meal{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

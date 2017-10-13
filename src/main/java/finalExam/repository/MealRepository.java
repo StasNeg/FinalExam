@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Stanislav on 27.09.2017.
  */
-public interface MealRepository {
+public interface MealRepository  {
     List<Meal> getAll(Integer restaurantId);
 
     Meal get(Integer id,Integer restaurantId);

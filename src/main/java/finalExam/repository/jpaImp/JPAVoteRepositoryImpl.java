@@ -1,8 +1,11 @@
-package finalExam.repository;
+package finalExam.repository.jpaImp;
 
 import finalExam.model.restaurant.Restaurant;
 import finalExam.model.user.User;
 import finalExam.model.vote.Vote;
+import finalExam.repository.AbstractDaoImpl;
+import finalExam.repository.RestaurantRepository;
+import finalExam.repository.VoteRepository;
 import finalExam.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,14 +22,14 @@ import static java.time.LocalDate.now;
 
 @Repository
 @Transactional(readOnly = true)
-public class JPAVoteRepositoryImpl implements VoteRepository{
+public class JPAVoteRepositoryImpl extends AbstractDaoImpl<Vote> implements VoteRepository {
 
-    @PersistenceContext
-    private EntityManager em;
+    public JPAVoteRepositoryImpl() {
+        super(Vote.class);
+    }
 
     @Autowired
     private RestaurantRepository restaurantRepository;
-
 
     @Override
     public List<Vote> getAll() {

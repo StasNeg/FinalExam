@@ -40,38 +40,34 @@ public class JPARestaurantRepositoryImplTest {
     @Autowired
     private RestaurantRepository repository;
 
-    @Before
-    public void setUp() {
-        repository.evictCache();
-    }
 
     private BeanMatcher<Restaurant> MATCHER = BeanMatcher.of(Restaurant.class);
 
     @Test
     @Rollback(false)
     public void testSave() throws Exception {
-        Restaurant newRestaurant = new Restaurant(null, "New", "NEW ADDRESS", of(2015, 06, 01));
+        Restaurant newRestaurant = new Restaurant(null, "New", "NEW ADDRESS");
         Restaurant created = repository.save(newRestaurant);
         newRestaurant.setId(created.getId());
         System.out.println(repository.getAll());
-        MATCHER.assertListEquals(Arrays.asList(FIRST_RESTAURANT,SECOND_RESTAURANT,THIRD_RESTAURANT, newRestaurant), repository.getAll());
+        MATCHER.assertListEquals(Arrays.asList(FIRST_RESTAURANT,SECOND_RESTAURANT, newRestaurant), repository.getAll());
     }
 
     @Test
     public void getAll() throws Exception {
         List<Restaurant> all = repository.getAll();
-        MATCHER.assertListEquals(Arrays.asList(FIRST_RESTAURANT , SECOND_RESTAURANT,THIRD_RESTAURANT), all);
+        MATCHER.assertListEquals(Arrays.asList(FIRST_RESTAURANT , SECOND_RESTAURANT), all);
     }
 
     @Test(expected = DataAccessException.class)
     public void testDuplicateMailSave() throws Exception {
-        repository.save(new Restaurant(null, "Астория", "Первого восстания 78", of(2015, 05, 30)));
+        repository.save(new Restaurant(null, "Астория", "Первого восстания 78"));
     }
 
     @Test
     public void testDelete() throws Exception {
         repository.delete(SECOND_RESTAURANT_ID);
-        MATCHER.assertListEquals(Arrays.asList(FIRST_RESTAURANT , THIRD_RESTAURANT), repository.getAll());
+        MATCHER.assertListEquals(Arrays.asList(FIRST_RESTAURANT ), repository.getAll());
     }
 
     @Test(expected = NotFoundException.class)
@@ -99,13 +95,13 @@ public class JPARestaurantRepositoryImplTest {
         MATCHER.assertEquals(updated, repository.get(FIRST_RESTAURANT_ID));
     }
 
-    @Test
-    public void testGetAlLWithMeals() throws Exception {
-        List<Restaurant> restaurants = repository.getByNameWithMeals(FIRST_RESTAURANT.getName());
-        System.out.println(restaurants);
-        restaurants = repository.getByNameBetweenDates(SECOND_RESTAURANT.getName(), of(2015, 01, 01), of(2015, 12, 30));
-        System.out.println(restaurants);
-        restaurants = repository.getBetweenDates(of(2015, 01, 01), of(2015, 12, 30));
-        System.out.println(restaurants);
-    }
+//    @Test
+//    public void testGetAlLWithMeals() throws Exception {
+//        List<Restaurant> restaurants = repository.getByNameWithMeals(FIRST_RESTAURANT.getName());
+//        System.out.println(restaurants);
+//        restaurants = repository.getByNameBetweenDates(SECOND_RESTAURANT.getName(), of(2015, 01, 01), of(2015, 12, 30));
+//        System.out.println(restaurants);
+//        restaurants = repository.getBetweenDates(of(2015, 01, 01), of(2015, 12, 30));
+//        System.out.println(restaurants);
+//    }
 }

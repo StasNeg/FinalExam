@@ -1,8 +1,9 @@
 package finalExam.controller.restaurants;
 
+import finalExam.model.restaurant.Restaurant;
 import finalExam.repository.RestaurantRepository;
-import finalExam.to.RestaurantTO;
-import finalExam.util.RestaurantUtil;
+import finalExam.to.MenuTo;
+import finalExam.util.MenuUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +19,14 @@ public class RestaurantRestController {
     RestaurantRepository repository;
 
     @GetMapping("/{id}")
-    public RestaurantTO get(@PathVariable("id") int id) {
-        return RestaurantUtil.getWithSumTotal(repository.get(id));
+    public Restaurant get(@PathVariable("id") int id) {
+        return repository.get(id);
     }
 
-    @GetMapping
-    public List<RestaurantTO> getAll() {
-        return RestaurantUtil.getWithSumTotal(repository.getAll());
+    @GetMapping()
+    public List<Restaurant> getAll() {
+        return repository.getAll();
     }
+
 
 }

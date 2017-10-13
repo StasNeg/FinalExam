@@ -3,6 +3,7 @@ package finalExam.model.restaurant;
 
 import finalExam.model.IdNamedAbstractClass;
 import finalExam.model.meal.Meal;
+import finalExam.model.menu.Menu;
 import finalExam.model.vote.Vote;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.validator.constraints.NotBlank;
@@ -16,85 +17,45 @@ import java.util.Set;
 
 @NamedQueries({
         @NamedQuery(name = Restaurant.ALL, query = "SELECT r FROM Restaurant r "),
-        @NamedQuery(name = Restaurant.DELETE, query = "DELETE FROM Restaurant r WHERE r.id=:id "),
-        @NamedQuery(name = Restaurant.ALL_BY_ADDRESS, query = "SELECT r FROM Restaurant r WHERE r.name LIKE CONCAT('%',?1,'%')"),
-        @NamedQuery(name = Restaurant.GET_BY_ADDRESS_BETWEEN_DATES, query = "SELECT r FROM Restaurant r " +
-                "WHERE r.name LIKE CONCAT('%',?1,'%') AND r.date >= ?2 AND r.date <= ?3 ORDER BY r.date DESC"),
-        @NamedQuery(name = Restaurant.GET_BETWEEN_DATES, query = "SELECT r FROM Restaurant r " +
-                "WHERE r.date >= ?1 AND r.date <= ?2 ORDER BY r.date DESC")
+        @NamedQuery(name = Restaurant.DELETE, query = "DELETE FROM Restaurant r WHERE r.id=:id ")
 })
 
 @Entity
-@Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = {"date","address"}, name = "" +
-        "restaurants_unique_date_address_idx")})
+@Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = {"address"}, name = "" +
+        "restaurants_unique_address_idx")})
 public class Restaurant extends IdNamedAbstractClass {
     public static final String ALL = "Restaurant.getAll";
     public static final String DELETE = "Restaurant.delete";
-    public static final String ALL_BY_ADDRESS = "Restaurant.getAllByAddress";
-    public static final String GET_BY_ADDRESS_BETWEEN_DATES = "Restaurant.getByAddressBetweenDates";
-    public static final String GET_BETWEEN_DATES = "Restaurant.getBetweenDates";
-
-    @OneToMany(fetch = FetchType.EAGER,  mappedBy = "restaurant",
-            cascade = {CascadeType.REMOVE}, orphanRemoval = true)
-    @OrderBy("price ASC")
-    @BatchSize(size = 50)
-    private List<Meal> meals = new ArrayList<>();
-
-    @Column(name = "date", nullable = false)
-    private LocalDate date;
 
     @NotBlank
     @Column(name = "address", nullable = false)
     private String address;
 
-    @OneToMany(fetch = FetchType.LAZY,  mappedBy = "restaurant",
-            cascade = {CascadeType.REMOVE}, orphanRemoval = true)
-    private Set<Vote> votes;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant",
+            cascade = {CascadeType.REMOVE})
+    @BatchSize(size = 200)
+    private Set<Menu> menus;
 
-    public Restaurant(Integer id, String name, String address, LocalDate date, List<Meal> meals) {
+    public Restaurant() {
+    }
+
+    public Restaurant(Integer id, String name) {
+        super(id, name);
+    }
+
+    public Restaurant(Integer id, String name, String address) {
         super(id, name);
         this.address = address;
-        this.meals = meals;
-        this.date = date;
     }
+
     public Restaurant(Restaurant restaurant) {
         super(restaurant.getId(),restaurant.getName());
         this.address = restaurant.getAddress();
-        this.meals = restaurant.getMeals();
-        this.date = restaurant.getDate();
     }
 
-
-    public Restaurant(String name, String address, LocalDate date, List<Meal> meals) {
+    public Restaurant(String name, String address) {
         super(name);
         this.address = address;
-        this.meals = meals;
-        this.date = date;
-    }
-
-    public Restaurant(Integer id, String name, String address, LocalDate date) {
-        super(id, name);
-        this.address = address;
-        this.date = date;
-    }
-
-    public List<Meal> getMeals() {
-        return meals;
-    }
-
-    public void setMeals(List<Meal> meals) {
-        this.meals = meals;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public Restaurant() {
     }
 
     public String getAddress() {
@@ -105,6 +66,16 @@ public class Restaurant extends IdNamedAbstractClass {
         this.address = address;
     }
 
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -113,25 +84,13 @@ public class Restaurant extends IdNamedAbstractClass {
 
         Restaurant that = (Restaurant) o;
 
-        if (meals != null ? !meals.equals(that.meals) : that.meals != null) return false;
-        return date != null ? date.equals(that.date) : that.date == null;
+        return address != null ? address.equals(that.address) : that.address == null;
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Restaurant{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", date=" + date +
-                ", meals=" + meals +
-                '}';
     }
 }

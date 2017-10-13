@@ -18,6 +18,7 @@ public class UserUtil {
     public static boolean assureIdConsistent(UserTo userTo, Integer id) {
         return  userTo.getId().equals(id);
     }
+
     public static User updateFromTo(User user, UserTo userTo) {
         user.setName(userTo.getName());
         user.setEmail(userTo.getEmail().toLowerCase());

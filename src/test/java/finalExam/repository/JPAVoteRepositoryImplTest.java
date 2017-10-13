@@ -47,13 +47,13 @@ public class JPAVoteRepositoryImplTest {
     @Test
     public void testSave() throws Exception {
         Vote created = repository.save(SECOND_RESTAURANT, ADMIN);
-        MATCHER.assertListEquals(Arrays.asList(VOTE1, created, VOTE3), repository.getAll());
+        MATCHER.assertListEquals(Arrays.asList(VOTE1, VOTE2, VOTE3, created), repository.getAll());
     }
 
     @Test
     public void testSaveWithOneParam() throws Exception {
         Vote created = repository.save(SECOND_RESTAURANT_ID, ADMIN);
-        MATCHER.assertListEquals(Arrays.asList(VOTE1, created, VOTE3), repository.getAll());
+        MATCHER.assertListEquals(Arrays.asList(VOTE1, VOTE2, VOTE3,created), repository.getAll());
     }
 
     @Test
