@@ -9,6 +9,7 @@ import org.hibernate.annotations.BatchSize;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @NamedQueries({
@@ -46,7 +47,8 @@ public class Menu extends IdAbstractClass {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "menu",
             cascade = {CascadeType.REMOVE})
     @BatchSize(size = 200)
-    private Set<Meal> meals;
+    @NotNull
+    private Set<Meal> meals = new HashSet<>();
 
     public Menu(Integer id, LocalDate date) {
         super(id);
@@ -105,7 +107,6 @@ public class Menu extends IdAbstractClass {
                 "id=" + id +
                 ", date=" + date +
                 ", restaurant=" + restaurant +
-//                ", meals=" + meals +
                 '}';
     }
 }

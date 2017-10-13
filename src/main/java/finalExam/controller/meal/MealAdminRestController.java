@@ -24,9 +24,9 @@ public class MealAdminRestController {
     }
 
     @PutMapping(value = "/{menuId}/meals/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody Meal meal, @PathVariable("menuId") int menuId, @PathVariable("id") int id) {
+    public Meal update(@RequestBody Meal meal, @PathVariable("menuId") int menuId, @PathVariable("id") int id) {
             ValidationUtil.assureIdConsistent(meal, id);
-            repository.save(meal, menuId);
+            return repository.save(meal, menuId);
     }
 
     @PostMapping(value = "/{menuId}", consumes = MediaType.APPLICATION_JSON_VALUE)

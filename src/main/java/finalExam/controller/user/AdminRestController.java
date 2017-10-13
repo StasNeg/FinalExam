@@ -50,9 +50,9 @@ public class AdminRestController {
 
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody User user, @PathVariable("id") int id) {
+    public User update(@RequestBody User user, @PathVariable("id") int id) {
         ValidationUtil.assureIdConsistent(user,id);
-        repository.save(user);
+        return repository.save(user);
     }
 
     @GetMapping(value = "/by", produces = MediaType.APPLICATION_JSON_VALUE)

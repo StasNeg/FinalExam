@@ -49,7 +49,7 @@ public class User extends IdNamedAbstractClass{
     private LocalDate registered = LocalDate.now();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user",
-            cascade = {CascadeType.REMOVE}, orphanRemoval = true)
+            cascade = {CascadeType.REMOVE})
     Set<Vote> votes;
 
     public User(Set<Role> roles) {

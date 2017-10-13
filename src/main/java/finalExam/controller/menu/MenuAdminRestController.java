@@ -1,6 +1,4 @@
 package finalExam.controller.menu;
-
-
 import finalExam.model.menu.Menu;
 import finalExam.repository.MenuRepository;
 import finalExam.to.MenuTo;
@@ -13,7 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-import static finalExam.util.MenuUtil.getFromSumTotal;
+import static finalExam.util.MenuUtil.getWithSumTotal;
 
 
 @RestController
@@ -29,19 +27,19 @@ public class MenuAdminRestController {
     }
 
     @PutMapping(value = "/{restaurantId}/menu/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody Menu menu, @PathVariable("restaurantId") int restaurantId, @PathVariable("id") int id) {
+    public MenuTo update(@RequestBody Menu menu, @PathVariable("restaurantId") int restaurantId, @PathVariable("id") int id) {
         ValidationUtil.assureIdConsistent(menu, id);
-        repository.save(menu, restaurantId);
+        return getWithSumTotal(repository.save(menu, restaurantId));
     }
 
     @PostMapping(value = "/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Menu> createWithLocation(@RequestBody Menu menu, @PathVariable("restaurantId") int restaurantId) {
+    public ResponseEntity<MenuTo> createWithLocation(@RequestBody Menu menu, @PathVariable("restaurantId") int restaurantId) {
         if (menu.isNew()) {
             Menu created = repository.save(menu, restaurantId);
             URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path(REST_URL + "/{id}")
                     .buildAndExpand(created.getId()).toUri();
-            return ResponseEntity.created(uriOfNewResource).body(created);
+            return ResponseEntity.created(uriOfNewResource).body(getWithSumTotal(created));
         }
         return null;
     }
